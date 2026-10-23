@@ -2,7 +2,7 @@
 
 ## Mission
 
-Je veux écrire aussi naturellement que je parle, sans friction.
+Je veux écrire aussi facilement que je parle, sans friction.
 
 ## Vision
 
