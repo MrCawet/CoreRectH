@@ -14,3 +14,4 @@ CoreRectH corrige en temps réel, seul, grâce au contexte.
 - Doit pouvoir deviner seul plutôt que de demander à l'utilisateur.
 - L'utilisateur peut protéger une partie de texte de la correction.
 - Fonctionne sur Android et sur Linux desktop.
+- La vitesse vient d'une correction en laquelle on a confiance.
