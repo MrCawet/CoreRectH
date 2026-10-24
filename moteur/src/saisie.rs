@@ -1,14 +1,18 @@
+use std::time::Duration;
+
 use crate::horloge::Horloge;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct ÉtatDuTexte {
     pub texte: String,
-    pub horodatage_en_millisecondes: u64,
+    /// Absent pour la première frappe.
+    pub délai_depuis_la_frappe_précédente: Option<Duration>,
 }
 
 pub struct Historique {
     horloge: Box<dyn Horloge>,
     contenu: Vec<ÉtatDuTexte>,
+    previous_timestamp_milliseconds: Option<u64>,
 }
 
 impl Historique {
@@ -16,19 +20,35 @@ impl Historique {
         Historique {
             horloge,
             contenu: Vec::new(),
+            previous_timestamp_milliseconds: None,
         }
     }
 
     pub fn enregistrer(&mut self, texte: &str) {
-        let horodatage_en_millisecondes = self.horloge.maintenant_en_millisecondes();
+        let timestamp_milliseconds = self.horloge.timestamp_milliseconds();
+        let délai_depuis_la_frappe_précédente =
+            self.délai_depuis_la_frappe_précédente(timestamp_milliseconds);
+        self.previous_timestamp_milliseconds = Some(timestamp_milliseconds);
+
         let nouvel_état = ÉtatDuTexte {
             texte: texte.to_string(),
-            horodatage_en_millisecondes,
+            délai_depuis_la_frappe_précédente,
         };
         self.contenu.push(nouvel_état);
     }
 
     pub fn contenu(&self) -> &[ÉtatDuTexte] {
         &self.contenu
+    }
+
+    fn délai_depuis_la_frappe_précédente(
+        &self,
+        timestamp_milliseconds: u64,
+    ) -> Option<Duration> {
+        let previous_timestamp_milliseconds = self.previous_timestamp_milliseconds?;
+        // Une horloge qui recule donnerait un débordement : on compte alors un délai nul.
+        let elapsed_milliseconds =
+            timestamp_milliseconds.saturating_sub(previous_timestamp_milliseconds);
+        Some(Duration::from_millis(elapsed_milliseconds))
     }
 }
