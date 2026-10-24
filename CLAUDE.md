@@ -27,6 +27,14 @@ L'agent fait donc le plus petit changement possible qui répond à la demande, s
 6. La documentation d'une variable ou d'un attribut n'indique que ce que son nom ne dit pas. Si le nom suffit, ne pas en écrire.
 7. Aucune dépendance sans justification : la bibliothèque standard d'abord.
 
+## Lisibilité
+
+L'opérateur est dyslexique. Ces règles valent pour les identifiants, les noms de fichiers et la documentation.
+
+1. Des mots entiers, toujours séparés, sans abréviation : `horodatage_en_millisecondes` plutôt que `ts_ms`, `historique` plutôt que `hist`.
+2. Pas de noms qui se ressemblent dans un même voisinage, en particulier ceux qui ne diffèrent que d'une lettre (`état` et `états`) : préférer `état` et `historique`.
+3. Une idée par ligne : pas d'enchaînement de méthodes sur une seule ligne, des variables intermédiaires nommées plutôt qu'une expression imbriquée.
+
 ## Stratégie de test : TDD, école de Détroit
 
 Approche TDD classique (école de Détroit). Pas de framework de mocking de l'école de Londres : aucune vérification d'appels internes (`verify()`, `toHaveBeenCalledWith`…).
