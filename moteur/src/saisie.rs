@@ -5,8 +5,8 @@ use crate::horloge::Horloge;
 #[derive(Debug, PartialEq, Eq)]
 pub struct ÉtatDuTexte {
     pub texte: String,
-    /// Absent pour la première frappe.
-    pub délai_depuis_la_frappe_précédente: Option<Duration>,
+    /// Depuis la frappe précédente. Absent pour la première frappe.
+    pub délai: Option<Duration>,
 }
 
 pub struct Historique {
@@ -26,13 +26,12 @@ impl Historique {
 
     pub fn enregistrer(&mut self, texte: &str) {
         let timestamp_milliseconds = self.horloge.timestamp_milliseconds();
-        let délai_depuis_la_frappe_précédente =
-            self.délai_depuis_la_frappe_précédente(timestamp_milliseconds);
+        let délai = self.délai_depuis_la_frappe_précédente(timestamp_milliseconds);
         self.previous_timestamp_milliseconds = Some(timestamp_milliseconds);
 
         let nouvel_état = ÉtatDuTexte {
             texte: texte.to_string(),
-            délai_depuis_la_frappe_précédente,
+            délai,
         };
         self.contenu.push(nouvel_état);
     }

@@ -32,14 +32,14 @@ impl Horloge for HorlogeProgrammée {
 fn première_frappe(texte: &str) -> ÉtatDuTexte {
     ÉtatDuTexte {
         texte: texte.to_string(),
-        délai_depuis_la_frappe_précédente: None,
+        délai: None,
     }
 }
 
 fn frappe_après(délai_en_millisecondes: u64, texte: &str) -> ÉtatDuTexte {
     ÉtatDuTexte {
         texte: texte.to_string(),
-        délai_depuis_la_frappe_précédente: Some(Duration::from_millis(délai_en_millisecondes)),
+        délai: Some(Duration::from_millis(délai_en_millisecondes)),
     }
 }
 
