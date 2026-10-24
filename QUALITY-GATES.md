@@ -28,7 +28,7 @@ Pour une CI rapide : un seul job, annulation des exécutions dépassées, pas d'
 Dans le code, vérifié par le compilateur et Clippy :
 
 - `#![forbid(unsafe_code)]` dans le cœur.
-- Lints Clippy `unwrap_used` et `expect_used` refusés hors des fonctions `#[test]`, y compris dans les doublures (section `[lints]` de `Cargo.toml`, `allow-unwrap-in-tests` et `allow-expect-in-tests` dans `clippy.toml`).
+- Lints Clippy `unwrap_used` et `expect_used` refusés dans le code de la crate, permis dans `tests/` (`#![deny(...)]` en tête de `src/lib.rs`).
 - Toute modification de ces réglages passe par l'opérateur.
 
 ## Commits

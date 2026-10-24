@@ -21,10 +21,9 @@ impl HorlogeProgrammée {
 impl Horloge for HorlogeProgrammée {
     fn maintenant_en_millisecondes(&self) -> u64 {
         let mut instants_à_venir = self.instants_à_venir.borrow_mut();
-        match instants_à_venir.pop_front() {
-            Some(instant_en_millisecondes) => instant_en_millisecondes,
-            None => panic!("l'horloge programmée n'a plus d'instant à donner"),
-        }
+        instants_à_venir
+            .pop_front()
+            .expect("l'horloge programmée n'a plus d'instant à donner")
     }
 }
 
