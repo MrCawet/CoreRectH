@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Lancé par Claude Code avant chaque commande Bash : un `git push` n'a lieu que si ./ci.sh passe.
-# Le filtre `if` de .claude/settings.json ne suffit pas : il a laissé passer d'autres commandes que `git push`.
+# Le script filtre lui-même : le champ `if` de .claude/settings.json s'est déclenché sur d'autres commandes que `git push`.
 project_directory="$(cd "$(dirname "$0")/../.." && pwd)"
 
 hook_input="$(cat)"
