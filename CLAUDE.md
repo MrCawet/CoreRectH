@@ -40,6 +40,7 @@ L'agent fait donc le plus petit changement possible qui répond à la demande, s
 5. Rendre le code explicite plutôt que le commenter. Ne commenter que ce que le code ne peut pas dire : pourquoi il existe, ou pourquoi il est écrit d'une manière qui peut sembler étrange.
 6. La documentation d'une variable ou d'un attribut n'indique que ce que son nom ne dit pas. Si le nom suffit, ne pas en écrire.
 7. Aucune dépendance sans justification : la bibliothèque standard d'abord.
+8. Tout ce qui sert à une même idée est regroupé au même endroit, effets compris ; le nom annonce ces effets.
 
 ## Lisibilité
 
