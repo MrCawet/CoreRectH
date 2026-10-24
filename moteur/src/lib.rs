@@ -1,5 +1,4 @@
 #![forbid(unsafe_code)]
 
-pub fn bonjour() -> &'static str {
-    "Bonjour le monde"
-}
+pub mod historique;
+pub mod horloge;
