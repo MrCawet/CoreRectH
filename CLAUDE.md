@@ -4,6 +4,7 @@
 
 - [NOTE-DE-CONCEPTION.md](NOTE-DE-CONCEPTION.md) : les choix techniques, hypothèses de départ à remettre en question.
 - [QUALITY-GATES.md](QUALITY-GATES.md) : ce qui peut être automatisé (CI/CD, commits).
+- [.claude/rules/rust.md](.claude/rules/rust.md) : règles propres au Rust, à lire avant d'écrire du Rust. Chargées automatiquement dès qu'un fichier `.rs` ou `Cargo.toml` est touché.
 
 Mettre à jour cette section à chaque changement qu'une nouvelle session perdrait du temps à retrouver : commandes fréquentes, particularités du projet, etc.
 
@@ -24,6 +25,7 @@ L'agent fait donc le plus petit changement possible qui répond à la demande, s
 4. N'optimiser que si un problème de performance est signalé explicitement.
 5. Rendre le code explicite plutôt que le commenter. Ne commenter que ce que le code ne peut pas dire : pourquoi il existe, ou pourquoi il est écrit d'une manière qui peut sembler étrange.
 6. La documentation d'une variable ou d'un attribut n'indique que ce que son nom ne dit pas. Si le nom suffit, ne pas en écrire.
+7. Aucune dépendance sans justification : la bibliothèque standard d'abord.
 
 ## Stratégie de test : TDD, école de Détroit
 
@@ -31,7 +33,8 @@ Approche TDD classique (école de Détroit). Pas de framework de mocking de l'é
 
 Règles non négociables :
 
-- **Tester les comportements, pas l'implémentation.** Les tests s'écrivent du point de vue des contrats publics et des cas d'usage métier (de l'intérieur vers l'extérieur).
+- **Tester les comportements, pas l'implémentation.** Les tests s'écrivent du point de vue des contrats publics et des cas d'usage métier (de l'intérieur vers l'extérieur). Ils n'utilisent que l'API publique.
+- **Le test d'abord.** Il échoue pour la bonne raison avant d'écrire le code. Un test existant ne se modifie que si le besoin change, jamais pour faire passer le code.
 - **Pas d'isolation au niveau des classes ou des fonctions.** Ne pas mocker ni stubber les classes internes, les fonctions ou les entités du domaine. Quand plusieurs classes collaborent pour réaliser un comportement, elles exécutent leur vrai code en mémoire.
 - **Les doublures ne servent qu'aux frontières.** Mocks, stubs ou fakes en mémoire sont réservés aux frontières lentes, non déterministes ou externes au processus : base de données, réseau, API tierces, système de fichiers, horloge système.
 - **Immunité au refactoring.** Les tests valident l'état final ou la valeur de retour, jamais la structure interne. Refactoriser un module ne doit jamais casser un test si le comportement métier reste identique.
