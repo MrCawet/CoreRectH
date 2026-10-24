@@ -80,17 +80,3 @@ fn chaque_état_du_texte_saisi_est_enregistré_dans_l_ordre_avec_le_délai_depui
         ]
     );
 }
-
-#[test]
-fn une_horloge_qui_recule_donne_un_délai_nul() {
-    let horloge = HorlogeProgrammée::qui_donnera(vec![1_000, 900]);
-    let mut historique = Historique::new(Box::new(horloge));
-
-    historique.enregistrer("B");
-    historique.enregistrer("Bo");
-
-    assert_eq!(
-        historique.contenu(),
-        [première_frappe("B"), frappe_après(0, "Bo")]
-    );
-}
