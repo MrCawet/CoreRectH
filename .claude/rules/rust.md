@@ -11,7 +11,7 @@ Complètent [CLAUDE.md](../../CLAUDE.md). Chacune répond à une dérive connue 
 ## Ne pas contourner le compilateur
 
 - Pas de `unsafe` : le cœur porte `#![forbid(unsafe_code)]`.
-- Pas de `unwrap()` ni d'`expect()` hors des tests : traiter le `Result` ou l'`Option`.
+- Pas de `unwrap()` ni d'`expect()` hors des fonctions `#[test]` : traiter le `Result` ou l'`Option`. Dans une doublure, Clippy les refuse aussi : écrire le cas d'échec avec un `match` et un `panic!` explicite.
 - Pas de `#[allow(...)]` pour faire taire un avertissement : corriger la cause, ou demander à l'opérateur.
 - Pas de `.clone()`, `Rc<RefCell<…>>` ou `Arc<Mutex<…>>` ajouté seulement pour satisfaire le vérificateur d'emprunts : revoir à qui appartient la donnée.
 
