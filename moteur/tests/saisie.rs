@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 use std::collections::VecDeque;
 
-use moteur::archives::Archives;
+use moteur::corpus::Corpus;
 use moteur::horloge::Horloge;
 use moteur::saisie::{Contexte, Historique, Saisie, SaisieTerminée, ÉtatDuTexte};
 
@@ -29,13 +29,13 @@ impl Horloge for HorlogeProgrammée {
     }
 }
 
-/// Doublure du stockage des archives : garde en mémoire les saisies qu'on lui confie.
-struct ArchivesEnMémoire {
+/// Doublure du stockage du corpus : garde en mémoire les saisies qu'on lui confie.
+struct CorpusEnMémoire {
     saisies: Vec<SaisieTerminée>,
 }
 
-impl Archives for ArchivesEnMémoire {
-    fn archiver(&mut self, saisie: SaisieTerminée) {
+impl Corpus for CorpusEnMémoire {
+    fn ajouter(&mut self, saisie: SaisieTerminée) {
         self.saisies.push(saisie);
     }
 }
@@ -91,17 +91,17 @@ fn contexte_d_une_lettre() -> Contexte {
 }
 
 #[test]
-fn une_saisie_terminée_est_archivée_avec_son_contexte_et_son_historique() {
+fn une_saisie_terminée_est_ajoutée_au_corpus_avec_son_contexte_et_son_historique() {
     let horloge = HorlogeProgrammée::qui_donnera(vec![1_000, 1_120]);
     let mut saisie = Saisie::commencer(contexte_d_une_lettre(), Box::new(horloge));
-    let mut archives = ArchivesEnMémoire { saisies: vec![] };
+    let mut corpus = CorpusEnMémoire { saisies: vec![] };
 
     saisie.enregistrer("B");
     saisie.enregistrer("Bo");
-    saisie.terminer(&mut archives);
+    saisie.terminer(&mut corpus);
 
     assert_eq!(
-        archives.saisies,
+        corpus.saisies,
         [SaisieTerminée {
             contexte: contexte_d_une_lettre(),
             historique: vec![frappe(1_000, "B"), frappe(1_120, "Bo")],

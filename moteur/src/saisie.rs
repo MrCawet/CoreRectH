@@ -1,4 +1,4 @@
-use crate::archives::Archives;
+use crate::corpus::Corpus;
 use crate::horloge::Horloge;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -61,12 +61,12 @@ impl Saisie {
         self.historique.enregistrer(texte);
     }
 
-    pub fn terminer(self, archives: &mut dyn Archives) {
+    pub fn terminer(self, corpus: &mut dyn Corpus) {
         let saisie_terminée = SaisieTerminée {
             contexte: self.contexte,
             historique: self.historique.into_contenu(),
         };
-        archives.archiver(saisie_terminée);
+        corpus.ajouter(saisie_terminée);
     }
 }
 
