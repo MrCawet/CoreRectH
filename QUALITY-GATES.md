@@ -1,4 +1,4 @@
-# Qualité
+# Quality gates
 
 Ce qui peut être automatisé.
 
