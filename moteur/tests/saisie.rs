@@ -21,7 +21,7 @@ impl HorlogeProgrammée {
 }
 
 impl Horloge for HorlogeProgrammée {
-    fn timestamp_milliseconds(&self) -> u64 {
+    fn timestamp_ms(&self) -> u64 {
         let mut remaining_readings = self.remaining_readings.borrow_mut();
         remaining_readings
             .pop_front()
@@ -36,10 +36,10 @@ fn première_frappe(texte: &str) -> ÉtatDuTexte {
     }
 }
 
-fn frappe_après(délai_en_millisecondes: u64, texte: &str) -> ÉtatDuTexte {
+fn frappe_après(délai_en_ms: u64, texte: &str) -> ÉtatDuTexte {
     ÉtatDuTexte {
         texte: texte.to_string(),
-        délai: Some(Duration::from_millis(délai_en_millisecondes)),
+        délai: Some(Duration::from_millis(délai_en_ms)),
     }
 }
 
