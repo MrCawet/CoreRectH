@@ -1,0 +1,23 @@
+name: CI
+
+on: push
+
+# Un nouveau push sur la même branche rend l'exécution précédente inutile.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # La machine repart de zéro à chaque exécution : l'incrémental ne ferait que ralentir.
+  CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: always
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install the toolchain from rust-toolchain.toml
+        run: rustup toolchain install
+      - name: Run ci.sh
+        run: ./ci.sh

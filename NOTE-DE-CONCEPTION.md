@@ -13,23 +13,23 @@ CoreRectH doit corriger le texte en cours de saisie dans les autres applications
 Un **cœur de correction** commun, appelé par des **points d'entrée** propres à chaque environnement.
 
 ```
-                     Cœur de correction
-        ▲              ▲              ▲              ▲
-   moteur IBus    plugin PhpStorm   mod Claude Code   plugin OnlyOffice / Euro-Office
+                            Cœur de correction
+             ▲                 ▲                 ▲                 ▲
+   méthode de saisie IBus   plugin PhpStorm   mod Claude Code   plugin OnlyOffice / Euro-Office
 ```
 
-La forme du cœur (service local, bibliothèque) reste à choisir.
+Le cœur est une bibliothèque Rust : la crate `moteur`. Les points d'entrée l'appellent directement (en natif, par UniFFI depuis la JVM, en WebAssembly depuis JavaScript).
 
 ## Linux desktop (GNOME)
 
-### Base : un moteur de saisie IBus
+### Base : une méthode de saisie IBus
 
-IBus est la méthode de saisie intégrée à GNOME. Un moteur IBus voit la frappe dans toutes les applications, sous X11 comme sous Wayland.
+IBus est le système de méthodes de saisie intégré à GNOME. Une méthode de saisie IBus voit la frappe dans toutes les applications, sous X11 comme sous Wayland.
 
-Il corrige de deux façons :
+Elle corrige de deux façons :
 
 1. **Lire et modifier le texte autour du curseur**, quand l'application le permet. Donne le contexte du document.
-2. **Effacer et retaper** : le moteur se souvient de ce qu'il a écrit, envoie des retours arrière puis le texte corrigé. Fonctionne partout, mais le contexte se limite à ce qui a été tapé.
+2. **Effacer et retaper** : la méthode de saisie se souvient de ce qu'elle a écrit, envoie des retours arrière puis le texte corrigé. Fonctionne partout, mais le contexte se limite à ce qui a été tapé.
 
 | Logiciel | Lire et modifier autour du curseur | Effacer et retaper |
 |---|---|---|
@@ -62,11 +62,11 @@ Le traitement d'une frappe dispose de 50 ms. D'où deux niveaux :
 
 ### OnlyOffice / Euro-Office : un plugin, plus tard
 
-Euro-Office est un fork d'OnlyOffice : même moteur, même API de plugins à ce jour. Un plugin JavaScript lit le document et remplace le texte par l'éditeur. En attendant, le moteur IBus corrige en effaçant et retapant.
+Euro-Office est un fork d'OnlyOffice : même base de code, même API de plugins à ce jour. Un plugin JavaScript lit le document et remplace le texte par l'éditeur. En attendant, la méthode de saisie IBus corrige en effaçant et retapant.
 
 ### Pistes écartées
 
-- **Plugin PhpStorm interceptant le terminal** : le terminal ne sait pas où est la zone de saisie de Claude Code. N'apporterait rien de plus que le moteur IBus.
+- **Plugin PhpStorm interceptant le terminal** : le terminal ne sait pas où est la zone de saisie de Claude Code. N'apporterait rien de plus que la méthode de saisie IBus.
 - **Hook `UserPromptSubmit` de Claude Code** : ne peut pas réécrire le prompt.
 - **Correction de Claude Code à l'envoi seulement** : remplacée par `prompt.edit`, qui corrige pendant la frappe.
 
@@ -79,7 +79,7 @@ Un clavier (InputMethodService) a accès au champ de saisie actif dans toutes le
 Il part de FlorisBoard (Apache-2.0, Kotlin) :
 
 - FlorisBoard n'a pas de correction intégrée : le cœur sera le seul correcteur, comme partout ailleurs, avec un seul historique.
-- Son nouveau moteur de dispositions (k3lp, fondé sur le futur standard Unicode des claviers) décrit les dispositions dans des fichiers : changer de disposition ne demande pas de code.
+- Son nouveau système de dispositions (k3lp, fondé sur le futur standard Unicode des claviers) décrit les dispositions dans des fichiers : changer de disposition ne demande pas de code.
 - L'accès au champ est prêt : lire le texte autour du curseur, remplacer une plage de texte.
 
 ### Le cœur ne reçoit que le texte
@@ -96,6 +96,7 @@ Le cœur corrige le mot une fois terminé, à partir du texte et du contexte, sa
 
 ## À vérifier en pratique
 
-- Le moteur IBus dans chaque logiciel de la liste, en particulier PhpStorm et OnlyOffice.
+- La méthode de saisie IBus dans chaque logiciel de la liste, en particulier PhpStorm et OnlyOffice.
 - `prompt.edit` dans Claude Code, vérifié seulement dans la documentation et les types.
 - La compatibilité de l'API de plugins entre OnlyOffice et Euro-Office.
+- L'horloge du moteur : fournie par le moteur, ou par chaque point d'entrée (instant de la frappe donné par IBus ou Android, `performance.now()` en JavaScript, où l'horloge de Rust n'existe pas en WebAssembly). Le trait `Horloge` laisse le choix ouvert jusqu'au premier point d'entrée.
