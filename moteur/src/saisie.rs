@@ -46,9 +46,7 @@ impl Historique {
         timestamp_milliseconds: u64,
     ) -> Option<Duration> {
         let previous_timestamp_milliseconds = self.previous_timestamp_milliseconds?;
-        // Une horloge qui recule donnerait un débordement : on compte alors un délai nul.
-        let elapsed_milliseconds =
-            timestamp_milliseconds.saturating_sub(previous_timestamp_milliseconds);
+        let elapsed_milliseconds = timestamp_milliseconds - previous_timestamp_milliseconds;
         Some(Duration::from_millis(elapsed_milliseconds))
     }
 }
