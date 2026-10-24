@@ -13,8 +13,10 @@ Ce qui peut être automatisé.
 `./ci.sh` est la seule source des vérifications, dans cet ordre (du plus rapide au plus lent) :
 
 - `cargo fmt --check` : le code est formaté.
-- `cargo clippy --all-targets -- -D warnings` : aucun avertissement.
-- `cargo test` : les tests passent.
+- `cargo clippy --locked --all-targets -- -D warnings` : aucun avertissement.
+- `cargo test --locked` : les tests passent.
+
+`--locked` fait échouer la vérification si `Cargo.lock` ne correspond plus à `Cargo.toml`, au lieu de le mettre à jour en silence.
 
 Il est lancé :
 
@@ -25,10 +27,12 @@ La chaîne Rust est fixée par `rust-toolchain.toml` (profil minimal), la même 
 
 Pour une CI rapide : un seul job, annulation des exécutions dépassées, pas d'incrémental. Pas de cache tant qu'il n'y a pas de dépendances à recompiler.
 
+Les actions GitHub sont désignées par leur version (`@v5`). Les épingler par SHA dès qu'arrive une action tierce ou un secret.
+
 Dans le code, vérifié par le compilateur et Clippy :
 
 - `#![forbid(unsafe_code)]` dans le cœur.
-- Lints Clippy `unwrap_used` et `expect_used` refusés dans le code de la crate, permis dans `tests/` (`#![deny(...)]` en tête de `src/lib.rs`).
+- Lints Clippy `unwrap_used` et `expect_used` refusés dans le code de la crate, permis dans `tests/` (`#![forbid(...)]` en tête de `src/lib.rs` : aucun `#[allow]` ne peut les réactiver).
 - Toute modification de ces réglages passe par l'opérateur.
 
 ## Commits
