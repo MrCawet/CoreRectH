@@ -5,28 +5,27 @@ use std::time::Duration;
 use moteur::horloge::Horloge;
 use moteur::saisie::{Historique, ÉtatDuTexte};
 
-/// Doublure de l'horloge système : donne, dans l'ordre, les horodatages qu'on lui a confiés.
+/// Doublure de l'horloge système : donne, dans l'ordre, les lectures qu'on lui a confiées.
 struct HorlogeProgrammée {
     // Une horloge se lit sans être modifiée (`&self`), mais celle-ci doit avancer à chaque lecture.
-    upcoming_timestamps_milliseconds: RefCell<VecDeque<u64>>,
+    remaining_readings: RefCell<VecDeque<u64>>,
 }
 
 impl HorlogeProgrammée {
-    fn qui_donnera(timestamps_milliseconds: Vec<u64>) -> Self {
-        let upcoming_timestamps_milliseconds = VecDeque::from(timestamps_milliseconds);
+    fn qui_donnera(readings: Vec<u64>) -> Self {
+        let remaining_readings = VecDeque::from(readings);
         HorlogeProgrammée {
-            upcoming_timestamps_milliseconds: RefCell::new(upcoming_timestamps_milliseconds),
+            remaining_readings: RefCell::new(remaining_readings),
         }
     }
 }
 
 impl Horloge for HorlogeProgrammée {
     fn timestamp_milliseconds(&self) -> u64 {
-        let mut upcoming_timestamps_milliseconds =
-            self.upcoming_timestamps_milliseconds.borrow_mut();
-        upcoming_timestamps_milliseconds
+        let mut remaining_readings = self.remaining_readings.borrow_mut();
+        remaining_readings
             .pop_front()
-            .expect("l'horloge programmée n'a plus d'horodatage à donner")
+            .expect("l'horloge programmée n'a plus de lecture à donner")
     }
 }
 
