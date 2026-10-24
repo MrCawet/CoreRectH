@@ -25,9 +25,7 @@ impl Historique {
     }
 
     pub fn enregistrer(&mut self, texte: &str) {
-        let timestamp_ms = self.horloge.timestamp_ms();
-        let délai = self.délai_depuis_la_frappe_précédente(timestamp_ms);
-        self.last_timestamp_ms = Some(timestamp_ms);
+        let délai = self.délai_depuis_la_frappe_précédente();
 
         let nouvel_état = ÉtatDuTexte {
             texte: texte.to_string(),
@@ -40,9 +38,12 @@ impl Historique {
         &self.contenu
     }
 
-    fn délai_depuis_la_frappe_précédente(&self, timestamp_ms: u64) -> Option<Duration> {
-        let last_timestamp_ms = self.last_timestamp_ms?;
-        let elapsed_ms = timestamp_ms - last_timestamp_ms;
+    fn délai_depuis_la_frappe_précédente(&mut self) -> Option<Duration> {
+        let timestamp_ms = self.horloge.timestamp_ms();
+        let previous_timestamp_ms = self.last_timestamp_ms;
+        self.last_timestamp_ms = Some(timestamp_ms);
+
+        let elapsed_ms = timestamp_ms - previous_timestamp_ms?;
         Some(Duration::from_millis(elapsed_ms))
     }
 }
