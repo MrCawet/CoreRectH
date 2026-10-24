@@ -12,7 +12,7 @@ pub struct ÉtatDuTexte {
 pub struct Historique {
     horloge: Box<dyn Horloge>,
     contenu: Vec<ÉtatDuTexte>,
-    previous_timestamp_milliseconds: Option<u64>,
+    last_timestamp_ms: Option<u64>,
 }
 
 impl Historique {
@@ -20,14 +20,14 @@ impl Historique {
         Historique {
             horloge,
             contenu: Vec::new(),
-            previous_timestamp_milliseconds: None,
+            last_timestamp_ms: None,
         }
     }
 
     pub fn enregistrer(&mut self, texte: &str) {
         let timestamp_milliseconds = self.horloge.timestamp_milliseconds();
         let délai = self.délai_depuis_la_frappe_précédente(timestamp_milliseconds);
-        self.previous_timestamp_milliseconds = Some(timestamp_milliseconds);
+        self.last_timestamp_ms = Some(timestamp_milliseconds);
 
         let nouvel_état = ÉtatDuTexte {
             texte: texte.to_string(),
@@ -44,8 +44,8 @@ impl Historique {
         &self,
         timestamp_milliseconds: u64,
     ) -> Option<Duration> {
-        let previous_timestamp_milliseconds = self.previous_timestamp_milliseconds?;
-        let elapsed_milliseconds = timestamp_milliseconds - previous_timestamp_milliseconds;
+        let last_timestamp_ms = self.last_timestamp_ms?;
+        let elapsed_milliseconds = timestamp_milliseconds - last_timestamp_ms;
         Some(Duration::from_millis(elapsed_milliseconds))
     }
 }
