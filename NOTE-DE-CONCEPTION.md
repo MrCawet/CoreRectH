@@ -2,6 +2,8 @@
 
 Résume les choix techniques faits pour atteindre le [cap](CAP.md).
 
+Ce sont des hypothèses de départ, à remettre en question à tout moment.
+
 ## Problème de départ
 
 CoreRectH doit corriger le texte en cours de saisie dans les autres applications. Aucun système ne donne un accès universel aux champs de texte : il faut s'insérer là où le texte passe.

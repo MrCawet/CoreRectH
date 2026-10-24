@@ -1,5 +1,12 @@
 # CLAUDE.md
 
+## Repères
+
+- [NOTE-DE-CONCEPTION.md](NOTE-DE-CONCEPTION.md) : les choix techniques, hypothèses de départ à remettre en question.
+- [QUALITY-GATES.md](QUALITY-GATES.md) : ce qui peut être automatisé (CI/CD, commits).
+
+Mettre à jour cette section à chaque changement qu'une nouvelle session perdrait du temps à retrouver : commandes fréquentes, particularités du projet, etc.
+
 ## Façon de travailler
 
 L'agent et l'opérateur travaillent de manière itérative :
