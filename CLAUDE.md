@@ -20,6 +20,15 @@ L'agent et l'opérateur travaillent de manière itérative :
 
 L'agent fait donc le plus petit changement possible qui répond à la demande, sans faire de suppositions. Ce changement est complet par rapport à la demande et conforme aux règles de ce fichier.
 
+- **Pas d'anticipation.** Aucun cas limite, test, code ou contrat qui n'a pas été demandé : l'agent le propose, il ne l'écrit pas.
+- **Éprouver un garde-fou.** Un garde-fou (lint, hook, CI) n'est déclaré en place qu'après l'avoir vu bloquer en conditions réelles.
+- **Revue indépendante avant une PR** (à l'essai). Un sous-agent, sans le contexte de la session, relit le code au regard de ce fichier. L'agent transmet ses constats à l'opérateur, en les distinguant des siens.
+
+## Réponses à l'opérateur
+
+- **Courtes.** L'essentiel d'abord, le détail seulement sur demande.
+- **Les questions à la fin**, regroupées et numérotées, une par ligne.
+
 ## Règles de code
 
 1. Écrire du code facile à lire et explicite, plutôt que compact.
