@@ -8,14 +8,14 @@ pub struct ÉtatDuTexte {
 
 pub struct Historique {
     horloge: Box<dyn Horloge>,
-    états_enregistrés: Vec<ÉtatDuTexte>,
+    contenu: Vec<ÉtatDuTexte>,
 }
 
 impl Historique {
     pub fn new(horloge: Box<dyn Horloge>) -> Self {
         Historique {
             horloge,
-            états_enregistrés: Vec::new(),
+            contenu: Vec::new(),
         }
     }
 
@@ -25,10 +25,10 @@ impl Historique {
             texte: texte.to_string(),
             horodatage_en_millisecondes,
         };
-        self.états_enregistrés.push(nouvel_état);
+        self.contenu.push(nouvel_état);
     }
 
-    pub fn états_enregistrés(&self) -> &[ÉtatDuTexte] {
-        &self.états_enregistrés
+    pub fn contenu(&self) -> &[ÉtatDuTexte] {
+        &self.contenu
     }
 }

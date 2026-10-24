@@ -6,6 +6,7 @@
 - [QUALITY-GATES.md](QUALITY-GATES.md) : ce qui peut être automatisé (CI/CD, commits).
 - [.claude/rules/rust.md](.claude/rules/rust.md) : règles propres au Rust, à lire avant d'écrire du Rust. Chargées automatiquement dès qu'un fichier `.rs` ou `Cargo.toml` est touché.
 - `moteur/` : la crate du cœur de correction.
+- `rust-toolchain.toml` : la version de Rust, la même en local et en CI.
 - `./ci.sh` : toutes les vérifications (fmt, clippy, tests), à lancer avant de livrer. Un hook Claude Code le lance avant chaque `git push` et bloque le push s'il échoue.
 
 Mettre à jour cette section à chaque changement qu'une nouvelle session perdrait du temps à retrouver : commandes fréquentes, particularités du projet, etc.
