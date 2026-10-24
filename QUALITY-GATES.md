@@ -43,10 +43,3 @@ type: description
 - `description` : en français, à l'impératif ou au présent, sans majuscule ni point final.
 
 Exemple : `feat: enregistre chaque état du texte saisi`
-
-Le TDD se lit dans l'historique : un nouveau comportement se livre en deux commits successifs.
-
-1. `test:` le test, qui échoue.
-2. `feat:` ou `fix:` le code qui le fait passer.
-
-Les deux commits sont poussés ensemble : le hook et la CI ne vérifient que le dernier, qui est vert.

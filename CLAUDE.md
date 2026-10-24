@@ -46,6 +46,12 @@ Règles non négociables :
 
 - **Tester les comportements, pas l'implémentation.** Les tests s'écrivent du point de vue des contrats publics et des cas d'usage métier (de l'intérieur vers l'extérieur). Ils n'utilisent que l'API publique.
 - **Le test d'abord.** Il échoue pour la bonne raison avant d'écrire le code. Un test existant ne se modifie que si le besoin change, jamais pour faire passer le code.
+- **Le cycle se lit dans l'historique.** Un commit par étape :
+  1. `test:` le test, qui échoue (rouge) ;
+  2. `feat:` ou `fix:` le code qui le fait passer (vert) ;
+  3. `refactor:` si besoin, le code amélioré, tests toujours verts.
+
+  Ces commits sont poussés ensemble : le hook et la CI ne vérifient que le dernier.
 - **Pas d'isolation au niveau des classes ou des fonctions.** Ne pas mocker ni stubber les classes internes, les fonctions ou les entités du domaine. Quand plusieurs classes collaborent pour réaliser un comportement, elles exécutent leur vrai code en mémoire.
 - **Les doublures ne servent qu'aux frontières.** Mocks, stubs ou fakes en mémoire sont réservés aux frontières lentes, non déterministes ou externes au processus : base de données, réseau, API tierces, système de fichiers, horloge système.
 - **Immunité au refactoring.** Les tests valident l'état final ou la valeur de retour, jamais la structure interne. Refactoriser un module ne doit jamais casser un test si le comportement métier reste identique.
