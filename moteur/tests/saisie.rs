@@ -1,8 +1,9 @@
 use std::cell::RefCell;
 use std::collections::VecDeque;
 
+use moteur::archives::Archives;
 use moteur::horloge::Horloge;
-use moteur::saisie::{Historique, ÉtatDuTexte};
+use moteur::saisie::{Contexte, Historique, Saisie, SaisieTerminée, ÉtatDuTexte};
 
 /// Doublure de l'horloge système : donne, dans l'ordre, les lectures qu'on lui a confiées.
 struct HorlogeProgrammée {
@@ -25,6 +26,17 @@ impl Horloge for HorlogeProgrammée {
         remaining_readings
             .pop_front()
             .expect("l'horloge programmée n'a plus de lecture à donner")
+    }
+}
+
+/// Doublure du stockage des archives : garde en mémoire les saisies qu'on lui confie.
+struct ArchivesEnMémoire {
+    saisies: Vec<SaisieTerminée>,
+}
+
+impl Archives for ArchivesEnMémoire {
+    fn archiver(&mut self, saisie: SaisieTerminée) {
+        self.saisies.push(saisie);
     }
 }
 
@@ -68,5 +80,31 @@ fn chaque_état_du_texte_saisi_est_enregistré_dans_l_ordre_avec_l_heure_de_sa_f
             frappe(1_610, "Bon"),
             frappe(1_700, "Bonj"),
         ]
+    );
+}
+
+fn contexte_d_une_lettre() -> Contexte {
+    Contexte {
+        avant: Some("Cher Paul,\n".to_string()),
+        après: None,
+    }
+}
+
+#[test]
+fn une_saisie_terminée_est_archivée_avec_son_contexte_et_son_historique() {
+    let horloge = HorlogeProgrammée::qui_donnera(vec![1_000, 1_120]);
+    let mut saisie = Saisie::commencer(contexte_d_une_lettre(), Box::new(horloge));
+    let mut archives = ArchivesEnMémoire { saisies: vec![] };
+
+    saisie.enregistrer("B");
+    saisie.enregistrer("Bo");
+    saisie.terminer(&mut archives);
+
+    assert_eq!(
+        archives.saisies,
+        [SaisieTerminée {
+            contexte: contexte_d_une_lettre(),
+            historique: vec![frappe(1_000, "B"), frappe(1_120, "Bo")],
+        }]
     );
 }
