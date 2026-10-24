@@ -43,9 +43,9 @@ Les identifiants du métier gardent leurs accents (types, fonctions, variables).
 ## Avant chaque livraison
 
 ```
-cargo fmt --check
-cargo clippy --all-targets -- -D warnings
-cargo test
+./ci.sh
 ```
+
+Il lance `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings` puis `cargo test`.
 
 Dire explicitement ce qui n'a pas pu être vérifié (cible Android, IBus…).

@@ -10,11 +10,20 @@ Ce qui peut être automatisé.
 
 ## Rust
 
-À chaque push :
+`./ci.sh` est la seule source des vérifications, dans cet ordre (du plus rapide au plus lent) :
 
 - `cargo fmt --check` : le code est formaté.
 - `cargo clippy --all-targets -- -D warnings` : aucun avertissement.
 - `cargo test` : les tests passent.
+
+Il est lancé :
+
+- avant chaque `git push` de Claude Code, sur toutes les branches, par le hook de `.claude/settings.json` : le push est bloqué si une vérification échoue ;
+- à chaque push, par GitHub Actions (`.github/workflows/ci.yml`).
+
+La chaîne Rust est fixée par `rust-toolchain.toml` (profil minimal), la même en local et en CI.
+
+Pour une CI rapide : un seul job, annulation des exécutions dépassées, pas d'incrémental. Pas de cache tant qu'il n'y a pas de dépendances à recompiler.
 
 Dans le code, vérifié par le compilateur et Clippy :
 
