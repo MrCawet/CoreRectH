@@ -28,6 +28,9 @@ L'agent fait donc le plus petit changement possible qui répond à la demande, s
 
 - **Courtes.** L'essentiel d'abord, le détail seulement sur demande.
 - **Les questions à la fin**, regroupées et numérotées, une par ligne.
+- **Des questions à choix**, posées avec l'outil de questions à options plutôt qu'en texte.
+- **Une recommandation par défaut** pour chaque question, en première option. L'opérateur ne répond qu'en cas de désaccord : sans réponse, l'agent applique la recommandation.
+- **Une sous-question à la fois.** Si une réponse en soulève une autre, elle est traitée seule, avant la question suivante.
 
 ## Règles de code
 
