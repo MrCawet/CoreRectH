@@ -29,7 +29,10 @@ L'agent fait donc le plus petit changement possible qui répond à la demande, s
 - **Courtes.** L'essentiel d'abord, le détail seulement sur demande.
 - **Les questions à la fin**, regroupées et numérotées, une par ligne.
 - **Des questions à choix**, posées avec l'outil de questions à options plutôt qu'en texte.
-- **Une recommandation par défaut** pour chaque question, en première option. L'opérateur ne répond qu'en cas de désaccord : sans réponse, l'agent applique la recommandation.
+- **Des questions autonomes.** Chaque question rappelle son contexte en une phrase, chaque option dit ce qui change concrètement : l'opérateur n'a pas à se souvenir du détail.
+- **Une option « Explique-moi d'abord »**, toujours présente : l'agent réexplique avant que l'opérateur décide.
+- **Une recommandation par défaut** pour un petit choix réversible, en première option. L'opérateur ne répond qu'en cas de désaccord : sans réponse, l'agent applique la recommandation.
+- **Aucune recommandation pour une décision importante** (difficile à défaire, ou qui touche au métier) : l'opérateur doit lire pour choisir.
 - **Une sous-question à la fois.** Si une réponse en soulève une autre, elle est traitée seule, avant la question suivante.
 
 ## Règles de code
