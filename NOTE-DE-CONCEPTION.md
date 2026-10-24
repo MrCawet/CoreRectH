@@ -99,3 +99,4 @@ Le cœur corrige le mot une fois terminé, à partir du texte et du contexte, sa
 - La méthode de saisie IBus dans chaque logiciel de la liste, en particulier PhpStorm et OnlyOffice.
 - `prompt.edit` dans Claude Code, vérifié seulement dans la documentation et les types.
 - La compatibilité de l'API de plugins entre OnlyOffice et Euro-Office.
+- L'horloge du moteur : fournie par le moteur, ou par chaque point d'entrée (instant de la frappe donné par IBus ou Android, `performance.now()` en JavaScript, où l'horloge de Rust n'existe pas en WebAssembly). Le trait `Horloge` laisse le choix ouvert jusqu'au premier point d'entrée.
