@@ -70,7 +70,27 @@ Euro-Office est un fork d'OnlyOffice : même moteur, même API de plugins à ce 
 
 ## Android
 
-À discuter. Piste envisagée : un clavier (InputMethodService), qui a accès au champ de saisie actif dans toutes les applications. Alternative : un service d'accessibilité, plus limité et restreint par Google Play.
+### Un clavier, basé sur FlorisBoard
+
+Un clavier (InputMethodService) a accès au champ de saisie actif dans toutes les applications. CoreRectH est donc un clavier.
+
+Il part de FlorisBoard (Apache-2.0, Kotlin) :
+
+- FlorisBoard n'a pas de correction intégrée : le cœur sera le seul correcteur, comme partout ailleurs, avec un seul historique.
+- Son nouveau moteur de dispositions (k3lp, fondé sur le futur standard Unicode des claviers) décrit les dispositions dans des fichiers : changer de disposition ne demande pas de code.
+- L'accès au champ est prêt : lire le texte autour du curseur, remplacer une plage de texte.
+
+### Le cœur ne reçoit que le texte
+
+Le cœur corrige le mot une fois terminé, à partir du texte et du contexte, sans savoir où le doigt a touché l'écran. Comme sous Linux, où un clavier physique ne donne pas cette information : le cœur fonctionne de la même façon partout.
+
+### Pistes écartées
+
+- **HeliBoard** : sa correction intégrée ferait double emploi avec le cœur.
+- **FUTO Keyboard** : sa licence interdit de modifier le code pour un usage commercial.
+- **Service d'accessibilité** : ne peut que remplacer tout le contenu d'un champ, et Google Play restreint cet usage.
+- **Dictée** : on n'écrit pas comme on parle.
+- **Dispositions alternatives** (T9, MessagEase, nid d'abeille, BÉPO) : la vitesse vient de la confiance dans la correction, pas de la disposition.
 
 ## À vérifier en pratique
 
