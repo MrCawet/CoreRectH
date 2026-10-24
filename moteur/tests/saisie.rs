@@ -1,6 +1,5 @@
 use std::cell::RefCell;
 use std::collections::VecDeque;
-use std::time::Duration;
 
 use moteur::horloge::Horloge;
 use moteur::saisie::{Historique, ÉtatDuTexte};
@@ -29,17 +28,10 @@ impl Horloge for HorlogeProgrammée {
     }
 }
 
-fn première_frappe(texte: &str) -> ÉtatDuTexte {
+fn frappe(timestamp_ms: u64, texte: &str) -> ÉtatDuTexte {
     ÉtatDuTexte {
         texte: texte.to_string(),
-        délai: None,
-    }
-}
-
-fn frappe_après(délai_en_ms: u64, texte: &str) -> ÉtatDuTexte {
-    ÉtatDuTexte {
-        texte: texte.to_string(),
-        délai: Some(Duration::from_millis(délai_en_ms)),
+        timestamp_ms,
     }
 }
 
@@ -52,8 +44,7 @@ fn un_historique_neuf_ne_contient_aucun_état() {
 }
 
 #[test]
-fn chaque_état_du_texte_saisi_est_enregistré_dans_l_ordre_avec_le_délai_depuis_la_frappe_précédente()
- {
+fn chaque_état_du_texte_saisi_est_enregistré_dans_l_ordre_avec_l_heure_de_sa_frappe() {
     let horloge =
         HorlogeProgrammée::qui_donnera(vec![1_000, 1_120, 1_250, 1_400, 1_530, 1_610, 1_700]);
     let mut historique = Historique::new(Box::new(horloge));
@@ -69,13 +60,13 @@ fn chaque_état_du_texte_saisi_est_enregistré_dans_l_ordre_avec_le_délai_depui
     assert_eq!(
         historique.contenu(),
         [
-            première_frappe("B"),
-            frappe_après(120, "Bo"),
-            frappe_après(130, "Bn"),
-            frappe_après(150, "B"),
-            frappe_après(130, "Bo"),
-            frappe_après(80, "Bon"),
-            frappe_après(90, "Bonj"),
+            frappe(1_000, "B"),
+            frappe(1_120, "Bo"),
+            frappe(1_250, "Bn"),
+            frappe(1_400, "B"),
+            frappe(1_530, "Bo"),
+            frappe(1_610, "Bon"),
+            frappe(1_700, "Bonj"),
         ]
     );
 }
