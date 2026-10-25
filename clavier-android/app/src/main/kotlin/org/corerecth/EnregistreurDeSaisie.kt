@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
+import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import java.io.File
 
 /**
@@ -14,8 +15,7 @@ import java.io.File
  * Les champs de mot de passe ne sont jamais enregistrés.
  */
 class EnregistreurDeSaisie {
-    // Traces lisibles dans le journal de debug de FlorisBoard (Autres → Outils de développement).
-    private val tagDuJournal = "CoreRectH"
+    private val prefs by FlorisPreferenceStore
 
     private var saisieEnCours: Long? = null
     private var dernierTexte: String = ""
@@ -24,12 +24,12 @@ class EnregistreurDeSaisie {
         // Android peut rouvrir le clavier sans l'avoir fermé : la saisie précédente ne doit pas être perdue.
         terminer()
         if (estUnMotDePasse(champ)) {
-            Log.i(tagDuJournal, "champ de mot de passe : saisie ignorée")
+            tracer("champ de mot de passe : saisie ignorée")
             return
         }
         val valeurDuChamp = lireLeChamp(connexion)
         saisieEnCours = Moteur.commencer(valeurDuChamp)
-        Log.i(tagDuJournal, "saisie commencée : $saisieEnCours")
+        tracer("saisie commencée : $saisieEnCours")
         dernierTexte = valeurDuChamp
     }
 
@@ -49,7 +49,18 @@ class EnregistreurDeSaisie {
         Moteur.terminer(saisie, cheminDuCorpus)
         saisieEnCours = null
         val corpusÉcrit = File(cheminDuCorpus).exists()
-        Log.i(tagDuJournal, "saisie terminée : $cheminDuCorpus, fichier présent : $corpusÉcrit")
+        tracer("saisie terminée : $cheminDuCorpus, fichier présent : $corpusÉcrit")
+    }
+
+    /**
+     * Écrit dans le journal Android, seulement quand « Activer les outils de développeur » est coché
+     * (FlorisBoard → Autre → Outils de développement). Le texte tapé n'y est jamais écrit.
+     */
+    private fun tracer(message: String) {
+        val outilsDeDéveloppementActivés = prefs.devtools.enabled.get()
+        if (outilsDeDéveloppementActivés) {
+            Log.i("CoreRectH", message)
+        }
     }
 
     private fun estUnMotDePasse(champ: EditorInfo): Boolean {
@@ -76,7 +87,7 @@ class EnregistreurDeSaisie {
         val documents = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
         val dossier = File(documents, "CoreRectH")
         val dossierCréé = dossier.mkdirs()
-        Log.i(tagDuJournal, "dossier du corpus : $dossier, créé : $dossierCréé, existe : ${dossier.exists()}")
+        tracer("dossier du corpus : $dossier, créé : $dossierCréé, existe : ${dossier.exists()}")
         val fichier = File(dossier, "corpus.jsonl")
         return fichier.path
     }
