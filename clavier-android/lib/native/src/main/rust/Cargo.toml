@@ -5,8 +5,9 @@ edition = "2021"
 
 [lib]
 name = "fl_native_rust"
-crate-type = ["staticlib"]
+crate-type = ["staticlib", "rlib"]
 
 [dependencies]
 dummy = { path = "../../../../../libnative/dummy" }
 jni = "0.21.1"
+moteur = { path = "../../../../../../moteur" }
