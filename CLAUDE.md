@@ -6,6 +6,7 @@
 - [QUALITY-GATES.md](QUALITY-GATES.md) : ce qui peut être automatisé (CI/CD, commits).
 - [.claude/rules/rust.md](.claude/rules/rust.md) : règles propres au Rust, à lire avant d'écrire du Rust. Chargées automatiquement dès qu'un fichier `.rs` ou `Cargo.toml` est touché.
 - `moteur/` : la crate du cœur de correction.
+- `analyse/` : les outils d'analyse du corpus enregistré par le clavier (`Documents/CoreRectH/corpus.jsonl` sur le téléphone). Nettoyer : `cargo run -q --manifest-path analyse/Cargo.toml < corpus.jsonl > corpus-nettoyé.jsonl`.
 - `clavier-android/` : copie de FlorisBoard (commit `fe1241f`, sans son historique), expérimentale. Pas de SDK Android dans les sessions cloud : la compilation se vérifie en local.
   - Le branchement au moteur : `app/src/main/kotlin/org/corerecth/` (Kotlin) et `lib/native/src/main/rust/` (crate Rust de FlorisBoard, JNI et adaptateurs, testée par `./ci.sh`).
 - Publier le clavier Android : action GitHub **Publier**, lancée à la main (voir [QUALITY-GATES.md](QUALITY-GATES.md)).
