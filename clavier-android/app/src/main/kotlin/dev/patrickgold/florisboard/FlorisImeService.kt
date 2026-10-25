@@ -66,6 +66,7 @@ import dev.patrickgold.florisboard.lib.util.debugSummarize
 import dev.patrickgold.florisboard.lib.util.launchActivity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import org.corerecth.EnregistreurDeSaisie
 import org.florisboard.lib.android.AndroidInternalR
 import org.florisboard.lib.android.AndroidVersion
 import org.florisboard.lib.android.systemServiceOrNull
@@ -269,6 +270,7 @@ class FlorisImeService : LifecycleInputMethodService() {
         private set
 
     private val wallpaperChangeReceiver = WallpaperChangeReceiver()
+    private val enregistreurDeSaisie = EnregistreurDeSaisie()
 
     init {
         setTheme(R.style.FlorisImeTheme)
@@ -364,6 +366,7 @@ class FlorisImeService : LifecycleInputMethodService() {
         flogInfo { "info=${info?.debugSummarize()} restarting=$restarting" }
         super.onStartInputView(info, restarting)
         if (info == null) return
+        enregistreurDeSaisie.commencer(info, currentInputConnection)
         currentInputConnection?.requestCursorUpdates(ImeEditor.CURSOR_UPDATES)
         val ic = WeakReference(currentInputConnection)
         val editorInfo = FlorisEditorInfo.wrap(info)
@@ -393,9 +396,22 @@ class FlorisImeService : LifecycleInputMethodService() {
         }
     }
 
+    override fun onUpdateSelection(
+        oldSelStart: Int,
+        oldSelEnd: Int,
+        newSelStart: Int,
+        newSelEnd: Int,
+        candidatesStart: Int,
+        candidatesEnd: Int,
+    ) {
+        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
+        enregistreurDeSaisie.surChangementDuChamp(currentInputConnection)
+    }
+
     override fun onFinishInputView(finishingInput: Boolean) {
         flogInfo { "finishing=$finishingInput" }
         super.onFinishInputView(finishingInput)
+        enregistreurDeSaisie.terminer()
         currentInputConnection?.requestCursorUpdates(0)
         imeController.updateStateBlocking {
             handleFinishInputView()

@@ -1,7 +1,6 @@
+pub mod jni_bridge;
 pub mod json_lines_corpus;
 pub mod system_clock;
-
-use dummy;
 
 use jni::objects::JClass;
 use jni::sys::jint;
