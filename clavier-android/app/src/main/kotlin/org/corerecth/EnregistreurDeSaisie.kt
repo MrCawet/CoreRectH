@@ -39,7 +39,7 @@ class EnregistreurDeSaisie {
 
     fun terminer() {
         val saisie = saisieEnCours ?: return
-        Moteur.terminer(saisie, cheminDuCorpus())
+        Moteur.terminer(saisie, préparerLeCheminDuCorpus())
         saisieEnCours = null
     }
 
@@ -63,7 +63,7 @@ class EnregistreurDeSaisie {
         return texte?.toString() ?: ""
     }
 
-    private fun cheminDuCorpus(): String {
+    private fun préparerLeCheminDuCorpus(): String {
         val documents = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
         val dossier = File(documents, "CoreRectH")
         dossier.mkdirs()
