@@ -2,6 +2,7 @@ package org.corerecth
 
 import android.os.Environment
 import android.text.InputType
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
@@ -13,6 +14,9 @@ import java.io.File
  * Les champs de mot de passe ne sont jamais enregistrés.
  */
 class EnregistreurDeSaisie {
+    // Traces lisibles dans le journal de debug de FlorisBoard (Autres → Outils de développement).
+    private val tagDuJournal = "CoreRectH"
+
     private var saisieEnCours: Long? = null
     private var dernierTexte: String = ""
 
@@ -20,10 +24,12 @@ class EnregistreurDeSaisie {
         // Android peut rouvrir le clavier sans l'avoir fermé : la saisie précédente ne doit pas être perdue.
         terminer()
         if (estUnMotDePasse(champ)) {
+            Log.i(tagDuJournal, "champ de mot de passe : saisie ignorée")
             return
         }
         val valeurDuChamp = lireLeChamp(connexion)
         saisieEnCours = Moteur.commencer(valeurDuChamp)
+        Log.i(tagDuJournal, "saisie commencée : $saisieEnCours")
         dernierTexte = valeurDuChamp
     }
 
@@ -39,8 +45,11 @@ class EnregistreurDeSaisie {
 
     fun terminer() {
         val saisie = saisieEnCours ?: return
-        Moteur.terminer(saisie, préparerLeCheminDuCorpus())
+        val cheminDuCorpus = préparerLeCheminDuCorpus()
+        Moteur.terminer(saisie, cheminDuCorpus)
         saisieEnCours = null
+        val corpusÉcrit = File(cheminDuCorpus).exists()
+        Log.i(tagDuJournal, "saisie terminée : $cheminDuCorpus, fichier présent : $corpusÉcrit")
     }
 
     private fun estUnMotDePasse(champ: EditorInfo): Boolean {
@@ -66,7 +75,8 @@ class EnregistreurDeSaisie {
     private fun préparerLeCheminDuCorpus(): String {
         val documents = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
         val dossier = File(documents, "CoreRectH")
-        dossier.mkdirs()
+        val dossierCréé = dossier.mkdirs()
+        Log.i(tagDuJournal, "dossier du corpus : $dossier, créé : $dossierCréé, existe : ${dossier.exists()}")
         val fichier = File(dossier, "corpus.jsonl")
         return fichier.path
     }
