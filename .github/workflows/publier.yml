@@ -1,0 +1,78 @@
+name: Publier
+
+# Lancée à la main depuis l'onglet Actions : publie le clavier Android en release GitHub.
+on: workflow_dispatch
+
+permissions:
+  contents: write
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Les tags existants servent à choisir le numéro de version.
+          fetch-depth: 0
+
+      - name: Install the toolchain from rust-toolchain.toml
+        run: rustup toolchain install
+
+      - name: Run ci.sh
+        run: ./ci.sh
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Install the NDK
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.14206865" > /dev/null
+
+      # Les versions de clavier-android/gradle/tools.versions.toml, depuis PyPI plutôt que par une action tierce.
+      - name: Install CMake and Ninja
+        run: |
+          pipx install cmake==4.1.2
+          pipx install ninja==1.13.2
+
+      - name: Build the APK
+        working-directory: clavier-android
+        run: ./gradlew assembleDebug
+
+      - name: Choose the version tag
+        id: version
+        run: |
+          base="v$(date -u +%Y.%m.%d)"
+          tag="$base"
+          number=2
+          while git rev-parse --quiet --verify "refs/tags/$tag" > /dev/null; do
+            tag="$base.$number"
+            number=$((number + 1))
+          done
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      # Toujours la même clé : sinon Android refuse de mettre à jour le clavier déjà installé.
+      - name: Sign the APK
+        env:
+          SIGNING_KEYSTORE_BASE64: ${{ secrets.SIGNING_KEYSTORE_BASE64 }}
+          SIGNING_KEYSTORE_PASSWORD: ${{ secrets.SIGNING_KEYSTORE_PASSWORD }}
+        run: |
+          echo "$SIGNING_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/corerecth.p12"
+          build_tools="$(ls "$ANDROID_HOME/build-tools" | sort --version-sort | tail -n 1)"
+          "$ANDROID_HOME/build-tools/$build_tools/apksigner" sign \
+            --ks "$RUNNER_TEMP/corerecth.p12" \
+            --ks-key-alias corerecth \
+            --ks-pass env:SIGNING_KEYSTORE_PASSWORD \
+            --out "corerecth-${{ steps.version.outputs.tag }}.apk" \
+            clavier-android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${{ steps.version.outputs.tag }}"
+          gh release create "$tag" "corerecth-$tag.apk" \
+            --target "$GITHUB_SHA" \
+            --title "$tag" \
+            --notes "Clavier Android, compilé depuis ${{ github.ref_name }} ($GITHUB_SHA)."
