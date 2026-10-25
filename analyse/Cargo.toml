@@ -1,0 +1,9 @@
+[package]
+name = "analyse"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# Lire le corpus, écrit en JSON Lines par le clavier.
+serde_json = "1.0.154"
