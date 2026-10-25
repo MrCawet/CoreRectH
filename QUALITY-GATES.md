@@ -7,6 +7,7 @@ Ce qui peut être automatisé.
 - Chaque push lance les tests.
 - Une branche dont les tests échouent n'est pas fusionnée dans `main`.
 - Pas de déploiement automatique pour l'instant.
+- L'action **Publier** (`.github/workflows/publier.yml`), lancée à la main, publie le clavier Android : `./ci.sh`, compilation de l'APK, signature, puis tag de version à la date du jour (`v2026.10.25`, puis `v2026.10.25.2`…) et release GitHub. Elle demande deux secrets : `SIGNING_KEYSTORE_BASE64` et `SIGNING_KEYSTORE_PASSWORD`.
 
 ## Rust
 
