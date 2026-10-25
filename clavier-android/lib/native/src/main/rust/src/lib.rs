@@ -1,3 +1,5 @@
+pub mod json_lines_corpus;
+
 use dummy;
 
 use jni::objects::JClass;
