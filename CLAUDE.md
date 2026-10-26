@@ -34,7 +34,7 @@ L'agent fait donc le plus petit changement possible qui répond à la demande, s
 - **Courtes.** L'essentiel d'abord, le détail seulement sur demande.
 - **Les questions à la fin, avec l'outil de questions à choix.** Chaque question rappelle son contexte en une phrase, chaque option dit ce qui change concrètement. Une option « Explique-moi d'abord » est toujours présente.
 - **Une recommandation seulement pour un petit choix réversible**, en première option : sans réponse, l'agent l'applique. Une décision importante (difficile à défaire, ou qui touche au métier) n'en a aucune : l'opérateur doit lire pour choisir.
-- **Le modèle de langue s'apprend en le construisant.** L'opérateur veut suivre et comprendre ce que fait l'agent sur le modèle de langue (voir [NOTE-DE-CONCEPTION.md](NOTE-DE-CONCEPTION.md)). À chaque étape, l'agent explique ce qu'il fait et pourquoi, en renvoyant au chapitre correspondant du livre de Raschka.
+- **Expliquer pour que l'opérateur apprenne.** L'opérateur veut suivre et comprendre ce que fait l'agent. À chaque étape, l'agent explique ce qu'il fait et pourquoi. Sur le modèle de langue (voir [NOTE-DE-CONCEPTION.md](NOTE-DE-CONCEPTION.md)), il renvoie au chapitre correspondant du livre de Raschka. Cette règle reste active jusqu'à ce que l'opérateur demande de la désactiver.
 - **Une sous-question à la fois.** Si une réponse en soulève une autre, elle est traitée seule, avant la question suivante.
 
 ## Règles de code
