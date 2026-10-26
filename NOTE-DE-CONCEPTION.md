@@ -20,6 +20,32 @@ Un **cœur de correction** commun, appelé par des **points d'entrée** propres 
 
 Le cœur est une bibliothèque Rust : la crate `moteur`. Les points d'entrée l'appellent directement (en natif, par UniFFI depuis la JVM, en WebAssembly depuis JavaScript).
 
+## La correction : un petit modèle de langue
+
+Le cœur corrige avec un seul système : un petit modèle de langue, qui devine le mot suivant à partir du texte déjà tapé, comme GPT-2. C'est un modèle de base, sans prompt ni conversation.
+
+À la fin d'un mot :
+
+1. le modèle, qui garde en mémoire son calcul sur le texte déjà lu, propose les mots les plus probables à cet endroit ;
+2. le cœur garde ceux qui ressemblent au mot tapé, d'après une table des touches voisines AZERTY ;
+3. si l'un d'eux est nettement devant, il remplace le mot tapé. Sinon, le mot reste tel quel.
+
+Le même modèle pourra servir à l'autocomplétion.
+
+Le modèle est le nôtre :
+
+- d'une taille proche de ceux de FUTO Keyboard (environ 36 millions de paramètres) ;
+- entraîné en Rust avec la bibliothèque Burn, sur la carte graphique de l'opérateur (NVIDIA RTX 3500 Ada, 12 Go) ;
+- utilisé par le cœur, donc le même sur Android et sous Linux.
+
+Ressource pour apprendre : le livre *Build a Large Language Model (From Scratch)* de Sebastian Raschka, et sa traduction en Rust avec Candle, [llms-from-scratch-rs](https://github.com/nerdai/llms-from-scratch-rs), à traduire vers Burn.
+
+### Pistes écartées
+
+- **Dictionnaire avec fréquences** : suffit pour les fautes sans contexte, mais il faudrait un second système pour les fautes de contexte (`a`/`à`, accords).
+- **Modèle existant** : FUTO Keyboard n'a pas de modèle français ; gpt-fr-cased-small (124 millions de paramètres) est environ trois fois et demie plus lourd qu'un modèle de clavier.
+- **Entraîner en Python** : pas plus rapide, car les calculs se font sur la carte graphique, et le modèle serait décrit dans deux langages.
+
 ## Linux desktop (GNOME)
 
 ### Base : une méthode de saisie IBus
@@ -100,3 +126,4 @@ Le cœur corrige le mot une fois terminé, à partir du texte et du contexte, sa
 - `prompt.edit` dans Claude Code, vérifié seulement dans la documentation et les types.
 - La compatibilité de l'API de plugins entre OnlyOffice et Euro-Office.
 - L'horloge du moteur : fournie par le moteur, ou par chaque point d'entrée (instant de la frappe donné par IBus ou Android, `performance.now()` en JavaScript, où l'horloge de Rust n'existe pas en WebAssembly). Le trait `Horloge` laisse le choix ouvert jusqu'au premier point d'entrée.
+- Le modèle de langue : un modèle de cette taille propose-t-il assez souvent le mot voulu en français ? Que faire des mots rares et des noms propres, qu'il ne propose jamais ? Quelles vitesse et mémoire sur téléphone ?
