@@ -15,7 +15,7 @@ import java.io.File
  * Les champs de mot de passe ne sont jamais enregistrés.
  */
 class EnregistreurDeSaisie {
-    private val prefs by FlorisPreferenceStore
+    private val préférences by FlorisPreferenceStore
 
     private var saisieEnCours: Long? = null
     private var dernierTexte: String = ""
@@ -57,7 +57,7 @@ class EnregistreurDeSaisie {
      * (FlorisBoard → Autre → Outils de développement). Le texte tapé n'y est jamais écrit.
      */
     private fun tracer(message: String) {
-        val outilsDeDéveloppementActivés = prefs.devtools.enabled.get()
+        val outilsDeDéveloppementActivés = préférences.devtools.enabled.get()
         if (outilsDeDéveloppementActivés) {
             Log.i("CoreRectH", message)
         }
