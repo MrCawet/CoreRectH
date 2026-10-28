@@ -26,6 +26,7 @@ L'agent et l'opérateur travaillent de manière itérative :
 
 L'agent fait donc le plus petit changement possible qui répond à la demande, sans faire de suppositions. Ce changement est complet par rapport à la demande et conforme aux règles de ce fichier.
 
+- **Une branche nommée d'après son sujet.** En mots français entiers, séparés par des tirets, sans accents : `analyse-du-corpus-et-modele-de-langue`. Si la session impose un nom généré (`ccr-…`), l'agent renomme la branche avant le premier push.
 - **Pas d'anticipation.** Aucun cas limite, test, code ou contrat qui n'a pas été demandé : l'agent le propose, il ne l'écrit pas. De même, il ne pose que les questions nécessaires à la demande en cours.
 - **Éprouver un garde-fou.** Un garde-fou (lint, hook, CI) n'est déclaré en place qu'après l'avoir vu bloquer en conditions réelles.
 - **Revue indépendante avant une PR** (à l'essai). Un sous-agent, sans le contexte de la session, relit le code au regard de ce fichier. L'agent transmet ses constats à l'opérateur, en les distinguant des siens.
