@@ -38,3 +38,6 @@ Les termes du métier, tels qu'ils s'écrivent dans le code. Un même mot désig
 | entrée | La fenêtre que lit le modèle. | `ExempleDEntraînement::entrée` |
 | cible | La même fenêtre décalée d'un caractère, qui donne à chaque position le caractère suivant. Le livre de Raschka dit *target*. | `ExempleDEntraînement::cible` |
 | taille de fenêtre | Le nombre maximal de caractères d'une fenêtre. Le livre de Raschka dit `context_size` ou `max_length`. | `taille_de_fenêtre` |
+| lot | Des exemples d'entraînement traités ensemble, rangés en tableau : une ligne par exemple, une colonne par caractère. Le livre de Raschka dit *batch*. | `Lot`, `lots` |
+| taille de lot | Le nombre maximal d'exemples d'entraînement d'un lot. Seul le dernier lot peut en avoir moins. Le livre de Raschka dit `batch_size`. | `taille_de_lot` |
+| numéro de remplissage | Un numéro réservé, qui complète un exemple plus court pour que toutes les lignes d'un lot aient la même longueur. Le modèle n'apprend rien de ces positions. Le livre de Raschka dit *padding*. | `numéro_de_remplissage` |
