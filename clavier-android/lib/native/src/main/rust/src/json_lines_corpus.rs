@@ -33,24 +33,15 @@ impl Corpus for JsonLinesCorpus {
 }
 
 fn saisie_to_json(saisie: &SaisieTerminée) -> String {
-    let avant = optional_string_to_json(&saisie.contexte.avant);
-    let après = optional_string_to_json(&saisie.contexte.après);
     let états: Vec<String> = saisie.historique.iter().map(état_to_json).collect();
     let historique = états.join(",");
-    format!(r#"{{"contexte":{{"avant":{avant},"après":{après}}},"historique":[{historique}]}}"#)
+    format!(r#"{{"historique":[{historique}]}}"#)
 }
 
 fn état_to_json(état: &ÉtatDuTexte) -> String {
     let texte = string_to_json(&état.texte);
     let timestamp_ms = état.timestamp_ms;
     format!(r#"{{"texte":{texte},"timestamp_ms":{timestamp_ms}}}"#)
-}
-
-fn optional_string_to_json(value: &Option<String>) -> String {
-    match value {
-        Some(text) => string_to_json(text),
-        None => "null".to_string(),
-    }
 }
 
 fn string_to_json(text: &str) -> String {

@@ -38,29 +38,18 @@ impl Historique {
     }
 }
 
-/// Le texte qui entoure la saisie, quand il existe.
-#[derive(Debug, PartialEq, Eq)]
-pub struct Contexte {
-    pub avant: Option<String>,
-    pub après: Option<String>,
-}
-
 pub struct Saisie {
-    contexte: Contexte,
     historique: Historique,
 }
 
 /// Commencer une saisie, enregistrer ses frappes, puis l'ajouter au corpus une fois terminée.
 impl Saisie {
-    pub fn commencer(contexte: Contexte, valeur_du_champ: &str, horloge: Box<dyn Horloge>) -> Self {
+    pub fn commencer(valeur_du_champ: &str, horloge: Box<dyn Horloge>) -> Self {
         let mut historique = Historique::new(horloge);
         if !valeur_du_champ.is_empty() {
             historique.enregistrer(valeur_du_champ);
         }
-        Saisie {
-            contexte,
-            historique,
-        }
+        Saisie { historique }
     }
 
     pub fn enregistrer(&mut self, texte: &str) {
@@ -69,7 +58,6 @@ impl Saisie {
 
     pub fn terminer(self, corpus: &mut dyn Corpus) {
         let saisie_terminée = SaisieTerminée {
-            contexte: self.contexte,
             historique: self.historique.into_contenu(),
         };
         corpus.ajouter(saisie_terminée);
@@ -78,6 +66,5 @@ impl Saisie {
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct SaisieTerminée {
-    pub contexte: Contexte,
     pub historique: Vec<ÉtatDuTexte>,
 }
