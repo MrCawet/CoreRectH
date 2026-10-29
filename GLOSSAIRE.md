@@ -7,11 +7,13 @@ Les termes du métier, tels qu'ils s'écrivent dans le code. Un même mot désig
 | Terme | Sens | Dans le code |
 |---|---|---|
 | saisie | Ce que l'utilisateur tape dans un champ, de l'ouverture du champ à sa fermeture. | `Saisie` |
+| frappe | Un changement du texte dans le champ. Chaque frappe ajoute un état du texte à l'historique. | `Saisie::enregistrer` |
 | état du texte | Le contenu du champ à un instant, avec son heure. | `ÉtatDuTexte` |
 | historique | La suite des états du texte d'une saisie. | `Historique` |
 | contexte | Le texte qui entoure la saisie, avant et après, quand il existe. | `Contexte` |
 | saisie terminée | Une saisie close, avec son contexte et son historique. | `SaisieTerminée` |
 | corpus | L'ensemble des saisies terminées, réunies pour être analysées. | `Corpus` |
+| nettoyage | Retirer du corpus les saisies qui ne servent pas à l'analyse. | `analyse::nettoyage::nettoyer` |
 | horloge | Ce qui donne l'heure de chaque état du texte. | `Horloge` |
 
 ## Fautes

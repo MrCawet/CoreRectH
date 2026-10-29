@@ -9,13 +9,13 @@
 - `moteur/` : la crate du cœur de correction.
 - `analyse/` : les outils d'analyse du corpus enregistré par le clavier (`Documents/CoreRectH/corpus.jsonl` sur le téléphone). Nettoyer : `cargo run -q --manifest-path analyse/Cargo.toml < corpus.jsonl > corpus-nettoyé.jsonl`.
   - [analyse/fautes.md](analyse/fautes.md) : le catalogue des fautes, avec leur motif et l'information nécessaire pour les deviner. À compléter à chaque nouveau corpus.
-- `modele-de-langue/` : le petit modèle de langue qui servira à corriger (voir [NOTE-DE-CONCEPTION.md](NOTE-DE-CONCEPTION.md)), entraîné avec Burn. Pour l'instant, le modèle jouet.
+- `modele-de-langue/` : le petit modèle de langue qui servira à corriger (voir [NOTE-DE-CONCEPTION.md](NOTE-DE-CONCEPTION.md)), qui sera entraîné avec Burn. Pour l'instant, le découpage du texte en caractères.
 - `clavier-android/` : copie de FlorisBoard (commit `fe1241f`, sans son historique), expérimentale. Pas de SDK Android dans les sessions cloud : la compilation se vérifie en local.
   - Le branchement au moteur : `app/src/main/kotlin/org/corerecth/` (Kotlin) et `lib/native/src/main/rust/` (crate Rust de FlorisBoard, JNI et adaptateurs, testée par `./ci.sh`).
 - Publier le clavier Android : action GitHub **Publier**, lancée à la main (voir [QUALITY-GATES.md](QUALITY-GATES.md)).
 - `rust-toolchain.toml` : la version de Rust, la même en local et en CI.
 - `./ci.sh` : toutes les vérifications (fmt, clippy, tests, documentation), à lancer avant de livrer. Un hook Claude Code le lance avant chaque `git push` et bloque le push s'il échoue. Il examine la commande entière avant de l'exécuter : pousser dans une commande à part, sinon un test rouge commité juste avant bloque tout.
-- Regrouper les commits d'une branche déjà poussée : `git push --force-with-lease=<branche>:<ancien commit> origin <branche>`, autorisé par `.claude/settings.json`, refusé sur `main`.
+- Regrouper les commits d'une branche déjà poussée : `git push --force-with-lease=<branche>:<ancien commit> origin <branche>`, autorisé par `.claude/settings.json`. Jamais sur `main` : seule la protection de branche sur GitHub peut l'interdire.
 
 Mettre à jour cette section à chaque changement qu'une nouvelle session perdrait du temps à retrouver : commandes fréquentes, particularités du projet, etc.
 
