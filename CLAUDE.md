@@ -4,6 +4,7 @@
 
 - [NOTE-DE-CONCEPTION.md](NOTE-DE-CONCEPTION.md) : les choix techniques, hypothèses de départ à remettre en question.
 - [QUALITY-GATES.md](QUALITY-GATES.md) : ce qui peut être automatisé (CI/CD, commits).
+- [GLOSSAIRE.md](GLOSSAIRE.md) : les termes du métier et leur nom dans le code. Les noms viennent de là.
 - [.claude/rules/rust.md](.claude/rules/rust.md) : règles propres au Rust, à lire avant d'écrire du Rust. Chargées automatiquement dès qu'un fichier `.rs` ou `Cargo.toml` est touché.
 - `moteur/` : la crate du cœur de correction.
 - `analyse/` : les outils d'analyse du corpus enregistré par le clavier (`Documents/CoreRectH/corpus.jsonl` sur le téléphone). Nettoyer : `cargo run -q --manifest-path analyse/Cargo.toml < corpus.jsonl > corpus-nettoyé.jsonl`.
@@ -29,6 +30,7 @@ L'agent fait donc le plus petit changement possible qui répond à la demande, s
 
 - **Une branche nommée d'après son sujet.** En mots français entiers, séparés par des tirets, sans accents : `analyse-du-corpus-et-modele-de-langue`. Si la session impose un nom généré (`ccr-…`), l'agent renomme la branche avant le premier push.
 - **Pas d'anticipation.** Aucun cas limite, test, code ou contrat qui n'a pas été demandé : l'agent le propose, il ne l'écrit pas. De même, il ne pose que les questions nécessaires à la demande en cours.
+- **Relire avant de livrer.** Avant de montrer un changement, l'agent relit son diff au regard de [Nommer](#nommer), des règles de code, de lisibilité et de [.claude/rules/rust.md](.claude/rules/rust.md), et corrige ce qui n'y répond pas.
 - **Éprouver un garde-fou.** Un garde-fou (lint, hook, CI) n'est déclaré en place qu'après l'avoir vu bloquer en conditions réelles.
 - **Revue indépendante avant une PR** (à l'essai). Un sous-agent, sans le contexte de la session, relit le code au regard de ce fichier. L'agent transmet ses constats à l'opérateur, en les distinguant des siens.
 
@@ -58,6 +60,17 @@ L'opérateur est dyslexique. Ces règles valent pour les identifiants, les noms 
 1. Des mots entiers, toujours séparés, sans abréviation : `timestamp_ms` plutôt que `ts_ms`, `historique` plutôt que `hist`. Deux exceptions : une unité s'écrit avec son symbole (`ms`, `s`, `km`) ; un nom manipulé souvent peut être court, si sa documentation dit le reste.
 2. Pas de noms qui se ressemblent dans un même voisinage, en particulier ceux qui ne diffèrent que d'une lettre (`état` et `états`) : préférer `état` et `historique`.
 3. Une idée par ligne : pas d'enchaînement de méthodes sur une seule ligne, des variables intermédiaires nommées plutôt qu'une expression imbriquée.
+
+## Nommer
+
+Avant d'écrire un nom, vérifier chaque point. Les exemples viennent de corrections déjà faites.
+
+1. **Le terme du glossaire.** Un terme du métier s'écrit comme dans [GLOSSAIRE.md](GLOSSAIRE.md). S'il n'y est pas, le proposer à l'opérateur et l'y ajouter.
+2. **Le terme exact.** « caractère » et non « lettre » quand l'espace et la ponctuation en font partie ; « numéro » et non « nombre » pour un identifiant ; le terme établi quand il existe (`JeuDeCaractères`, plutôt que `Alphabet`).
+3. **Ce que la chose exprime, pas comment elle est stockée.** Une variable qui porte la logique se nomme en français d'après son rôle, même si elle contient une `HashMap` (`caractères_distincts_triés`, et non `distinct_characters`). Un attribut qui ne sert qu'à des méthodes qui portent la logique est un détail technique, nommé d'après sa forme (`as_vector`, `as_hash_map`).
+4. **Une méthode porte le nom de ce qu'elle renvoie.** Pas de `get_` (`numéro_de(caractère)`, et non `get_numéro`). Pas de verbe qui suggère une action qui n'a pas lieu (`numéroter` pour une simple lecture).
+5. **Pas de noms qui se ressemblent** (règle de lisibilité 2), y compris les mêmes mots dans l'ordre inverse (`caractère_par_numéro` et `numéro_par_caractère`) et le singulier à côté du pluriel (`numéro` et `numéros`).
+6. **Pas de variable intermédiaire seulement pour la renommer** : construire directement sous le nom final (`as_vector`, puis `JeuDeCaractères { as_vector, … }`).
 
 ## Stratégie de test : TDD, école de Détroit
 
