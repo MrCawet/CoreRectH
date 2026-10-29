@@ -40,7 +40,7 @@ impl Corpus for CorpusEnMémoire {
     }
 }
 
-fn frappe(timestamp_ms: u64, texte: &str) -> ÉtatDuTexte {
+fn état(timestamp_ms: u64, texte: &str) -> ÉtatDuTexte {
     ÉtatDuTexte {
         texte: texte.to_string(),
         timestamp_ms,
@@ -72,18 +72,18 @@ fn chaque_état_du_texte_saisi_est_enregistré_dans_l_ordre_avec_l_heure_de_sa_f
     assert_eq!(
         historique.contenu(),
         [
-            frappe(1_000, "B"),
-            frappe(1_120, "Bo"),
-            frappe(1_250, "Bn"),
-            frappe(1_400, "B"),
-            frappe(1_530, "Bo"),
-            frappe(1_610, "Bon"),
-            frappe(1_700, "Bonj"),
+            état(1_000, "B"),
+            état(1_120, "Bo"),
+            état(1_250, "Bn"),
+            état(1_400, "B"),
+            état(1_530, "Bo"),
+            état(1_610, "Bon"),
+            état(1_700, "Bonj"),
         ]
     );
 }
 
-fn contexte_d_une_lettre() -> Contexte {
+fn contexte_d_un_courrier() -> Contexte {
     Contexte {
         avant: Some("Cher Paul,\n".to_string()),
         après: None,
@@ -94,7 +94,7 @@ fn contexte_d_une_lettre() -> Contexte {
 fn une_saisie_terminée_est_ajoutée_au_corpus_avec_son_contexte_et_son_historique() {
     let horloge = HorlogeProgrammée::qui_donnera(vec![1_000, 1_120]);
     let champ_vide = "";
-    let mut saisie = Saisie::commencer(contexte_d_une_lettre(), champ_vide, Box::new(horloge));
+    let mut saisie = Saisie::commencer(contexte_d_un_courrier(), champ_vide, Box::new(horloge));
     let mut corpus = CorpusEnMémoire { saisies: vec![] };
 
     saisie.enregistrer("B");
@@ -104,8 +104,8 @@ fn une_saisie_terminée_est_ajoutée_au_corpus_avec_son_contexte_et_son_historiq
     assert_eq!(
         corpus.saisies,
         [SaisieTerminée {
-            contexte: contexte_d_une_lettre(),
-            historique: vec![frappe(1_000, "B"), frappe(1_120, "Bo")],
+            contexte: contexte_d_un_courrier(),
+            historique: vec![état(1_000, "B"), état(1_120, "Bo")],
         }]
     );
 }
@@ -113,7 +113,7 @@ fn une_saisie_terminée_est_ajoutée_au_corpus_avec_son_contexte_et_son_historiq
 #[test]
 fn la_valeur_déjà_présente_dans_le_champ_est_la_première_frappe() {
     let horloge = HorlogeProgrammée::qui_donnera(vec![1_000, 1_120]);
-    let mut saisie = Saisie::commencer(contexte_d_une_lettre(), "Bonjour", Box::new(horloge));
+    let mut saisie = Saisie::commencer(contexte_d_un_courrier(), "Bonjour", Box::new(horloge));
     let mut corpus = CorpusEnMémoire { saisies: vec![] };
 
     saisie.enregistrer("Bonjour P");
@@ -122,8 +122,8 @@ fn la_valeur_déjà_présente_dans_le_champ_est_la_première_frappe() {
     assert_eq!(
         corpus.saisies,
         [SaisieTerminée {
-            contexte: contexte_d_une_lettre(),
-            historique: vec![frappe(1_000, "Bonjour"), frappe(1_120, "Bonjour P")],
+            contexte: contexte_d_un_courrier(),
+            historique: vec![état(1_000, "Bonjour"), état(1_120, "Bonjour P")],
         }]
     );
 }

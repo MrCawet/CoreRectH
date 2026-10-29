@@ -12,6 +12,7 @@ pub struct Historique {
     contenu: Vec<ÉtatDuTexte>,
 }
 
+/// Enregistrer les états du texte, puis les lire.
 impl Historique {
     pub fn new(horloge: Box<dyn Horloge>) -> Self {
         Historique {
@@ -49,6 +50,7 @@ pub struct Saisie {
     historique: Historique,
 }
 
+/// Commencer une saisie, enregistrer ses frappes, puis l'ajouter au corpus une fois terminée.
 impl Saisie {
     pub fn commencer(contexte: Contexte, valeur_du_champ: &str, horloge: Box<dyn Horloge>) -> Self {
         let mut historique = Historique::new(horloge);

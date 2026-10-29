@@ -58,7 +58,7 @@ L'agent fait donc le plus petit changement possible qui répond à la demande, s
 L'opérateur est dyslexique. Ces règles valent pour les identifiants, les noms de fichiers et la documentation.
 
 1. Des mots entiers, toujours séparés, sans abréviation : `timestamp_ms` plutôt que `ts_ms`, `historique` plutôt que `hist`. Deux exceptions : une unité s'écrit avec son symbole (`ms`, `s`, `km`) ; un nom manipulé souvent peut être court, si sa documentation dit le reste.
-2. Pas de noms qui se ressemblent dans un même voisinage, en particulier ceux qui ne diffèrent que d'une lettre (`état` et `états`) : préférer `état` et `historique`.
+2. Pas de noms qui se ressemblent dans un même voisinage, en particulier ceux qui ne diffèrent que d'une lettre (`état` et `états`) : préférer `état` et `historique`. Cette règle ne doit jamais nuire à la clarté : quand les noms les plus clairs se ressemblent parce qu'ils disent des choses symétriques, on les garde (`texte_encodé` et `texte_décodé`).
 3. Une idée par ligne : pas d'enchaînement de méthodes sur une seule ligne, des variables intermédiaires nommées plutôt qu'une expression imbriquée.
 
 ## Nommer
