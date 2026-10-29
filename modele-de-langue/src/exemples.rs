@@ -30,20 +30,23 @@ pub fn exemples_d_entraînement(
     }
 
     /* # Apprendre
-       La cible dépasse l'entrée d'un caractère : une fenêtre ne commence que s'il
-       reste au moins un caractère après elle. Les caractères de la fin du texte qui
-       ne remplissent pas une fenêtre entière sont laissés de côté.
+       La cible dépasse l'entrée d'un caractère : le dernier caractère du texte ne
+       peut être que dans une cible, jamais dans une entrée. Les entrées se partagent
+       les autres caractères, une fenêtre entière chacune. Ceux de la fin qui ne
+       remplissent pas une fenêtre entière sont laissés de côté.
     */
-    // saturating_sub donne 0 plutôt qu'un débordement quand le texte est plus court
-    // que la fenêtre : aucune fenêtre ne commence alors.
-    let limite_des_débuts = texte_encodé.len().saturating_sub(taille_de_fenêtre);
+    // saturating_sub donne 0 plutôt qu'un débordement quand le texte est vide.
+    let last_index = texte_encodé.len().saturating_sub(1);
+    let nombre_d_exemples = last_index / taille_de_fenêtre;
 
     let mut exemples = Vec::new();
-    for début in (0..limite_des_débuts).step_by(taille_de_fenêtre) {
+    let mut début = 0;
+    for _ in 0..nombre_d_exemples {
         let fin = début + taille_de_fenêtre;
         let entrée = texte_encodé[début..fin].to_vec();
         let cible = texte_encodé[début + 1..fin + 1].to_vec();
         exemples.push(ExempleDEntraînement { entrée, cible });
+        début = fin;
     }
     Some(exemples)
 }
