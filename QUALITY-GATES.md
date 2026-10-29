@@ -37,6 +37,24 @@ Dans le code, vérifié par le compilateur et Clippy :
 - Lints Clippy `unwrap_used` et `expect_used` refusés dans le code de la crate, permis dans `tests/` (`#![forbid(...)]` en tête de `src/lib.rs` : aucun `#[allow]` ne peut les réactiver).
 - Toute modification de ces réglages passe par l'opérateur.
 
+## Mesurer les tests, à la main
+
+Hors de `./ci.sh` et de la CI, pour ne pas les alourdir : l'opérateur les lance de temps en temps, dans le dossier d'une crate (`moteur`, `modele-de-langue`…).
+
+- **Couverture** (`cargo llvm-cov --text`) : les lignes que les tests exécutent. Trouve le code jamais exécuté.
+- **Mutation** (`cargo mutants`) : casse le code une modification à la fois et vérifie qu'un test échoue.
+  - Un mutant `missed` est du code que rien ne vérifie.
+  - Pour juger un test : le retirer et relancer. Si aucun mutant ne devient `missed`, il ne protège rien de plus que les autres.
+  - `--file <chemin>` limite à un fichier.
+  - Documentation : <https://mutants.rs/>
+
+Installation, depuis le dépôt (pour la version de Rust de `rust-toolchain.toml`), une fois par machine et à chaque changement de version :
+
+```sh
+cargo install --locked cargo-llvm-cov cargo-mutants
+rustup component add llvm-tools
+```
+
 ## Commits
 
 Format [Conventional Commits](https://www.conventionalcommits.org/fr/) minimal :
