@@ -1,7 +1,7 @@
 use std::num::NonZeroUsize;
 
 /// Une entrée et sa cible, tirées d'un texte encodé.
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ExempleDEntraînement {
     pub entrée: Vec<usize>,
     pub cible: Vec<usize>,

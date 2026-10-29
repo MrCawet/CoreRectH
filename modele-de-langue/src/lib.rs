@@ -3,3 +3,4 @@
 
 pub mod decoupage;
 pub mod exemples;
+pub mod lots;
