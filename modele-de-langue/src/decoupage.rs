@@ -32,7 +32,7 @@ impl JeuDeCaractères {
 
 /// Construire le jeu de caractères, encoder et décoder un texte.
 impl JeuDeCaractères {
-    pub fn depuis_le_texte(texte: &str) -> Self {
+    pub fn from_texte(texte: &str) -> Self {
         /* # Apprendre
            Les caractères sont triés pour que le même texte donne toujours les mêmes
            numéros : un modèle entraîné n'est valable qu'avec son jeu de caractères.
