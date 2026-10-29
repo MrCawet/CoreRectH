@@ -1,12 +1,12 @@
-use modele_de_langue::decoupage::Vocabulaire;
+use modele_de_langue::decoupage::JeuDeCaractères;
 
 #[test]
 fn décoder_un_texte_encodé_redonne_le_texte() {
     let texte = "Petit souci, je ne peux pas choisir le clavier.";
-    let vocabulaire = Vocabulaire::depuis_le_texte(texte);
+    let jeu_de_caractères = JeuDeCaractères::depuis_le_texte(texte);
 
-    let nombres = vocabulaire.encoder(texte).unwrap();
-    let texte_décodé = vocabulaire.décoder(&nombres).unwrap();
+    let numéros_du_texte = jeu_de_caractères.encoder(texte).unwrap();
+    let texte_décodé = jeu_de_caractères.décoder(&numéros_du_texte).unwrap();
 
     assert_eq!(texte_décodé, texte);
 }
