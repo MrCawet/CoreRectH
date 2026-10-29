@@ -1,3 +1,5 @@
+use std::num::NonZeroUsize;
+
 /// Une entrée et sa cible, tirées d'un texte encodé.
 #[derive(Debug, PartialEq)]
 pub struct ExempleDEntraînement {
@@ -5,8 +7,6 @@ pub struct ExempleDEntraînement {
     pub cible: Vec<usize>,
 }
 
-/// `None` si la taille de fenêtre est nulle.
-///
 /** # Apprendre
    Le modèle apprend à deviner le caractère suivant. Un exemple d'entraînement lui
    donne une entrée et sa cible, de même taille : la cible est l'entrée décalée d'un
@@ -23,11 +23,16 @@ pub struct ExempleDEntraînement {
 */
 pub fn exemples_d_entraînement(
     texte_encodé: &[usize],
-    taille_de_fenêtre: usize,
-) -> Option<Vec<ExempleDEntraînement>> {
-    if taille_de_fenêtre == 0 {
-        return None;
-    }
+    taille_de_fenêtre: NonZeroUsize,
+) -> Vec<ExempleDEntraînement> {
+    /* # Apprendre
+       `NonZeroUsize` est un `usize` qui ne peut pas valoir 0 : le compilateur
+       l'impose à l'appelant, qui doit passer par `NonZeroUsize::new`. Une fenêtre
+       vide n'a pas de sens, et la division plus bas ne peut donc pas être par zéro.
+       `get` redonne le `usize`, pour calculer avec.
+       <https://doc.rust-lang.org/std/num/type.NonZeroUsize.html>
+    */
+    let taille_de_fenêtre = taille_de_fenêtre.get();
 
     /* # Apprendre
        La cible dépasse l'entrée d'un caractère : le dernier caractère du texte ne
@@ -48,5 +53,5 @@ pub fn exemples_d_entraînement(
         exemples.push(ExempleDEntraînement { entrée, cible });
         début = fin;
     }
-    Some(exemples)
+    exemples
 }
