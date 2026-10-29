@@ -31,6 +31,7 @@ L'agent fait donc le plus petit changement possible qui répond à la demande, s
 - **Une branche nommée d'après son sujet.** En mots français entiers, séparés par des tirets, sans accents : `analyse-du-corpus-et-modele-de-langue`. Si la session impose un nom généré (`ccr-…`), l'agent renomme la branche avant le premier push.
 - **Pas d'anticipation.** Aucun cas limite, test, code ou contrat qui n'a pas été demandé : l'agent le propose, il ne l'écrit pas. De même, il ne pose que les questions nécessaires à la demande en cours.
 - **Relire avant de livrer.** Avant de montrer un changement, l'agent relit son diff au regard de [Nommer](#nommer), des règles de code, de lisibilité et de [.claude/rules/rust.md](.claude/rules/rust.md), et corrige ce qui n'y répond pas.
+- **Proposer de mesurer les tests.** Couverture et mutation se lancent à la main (voir [QUALITY-GATES.md](QUALITY-GATES.md#mesurer-les-tests-à-la-main)). L'agent dit à l'opérateur quand il juge le moment venu, par exemple après un comportement ajouté ou un test vert dès son ajout, ou avant une PR.
 - **Éprouver un garde-fou.** Un garde-fou (lint, hook, CI) n'est déclaré en place qu'après l'avoir vu bloquer en conditions réelles.
 - **Revue indépendante avant une PR** (à l'essai). Un sous-agent, sans le contexte de la session, relit le code au regard de ce fichier. L'agent transmet ses constats à l'opérateur, en les distinguant des siens.
 
