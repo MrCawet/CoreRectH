@@ -370,6 +370,6 @@
         <string id="shift_display" value="\u{21EA}" />
         <string id="numeric_display" value="1 2&#10;3 4" />
         <string id="symbol_1_display" value="?123" />
-        <string id="symbol_2_display" value="\u{003D 005C 003C}" />
+        <string id="symbol_2_display" value="\u{0023 0040 0026}" />
     </variables>
 </keyboard3>
