@@ -1,10 +1,13 @@
+use std::num::NonZeroUsize;
+
 use modele_de_langue::exemples::{ExempleDEntraînement, exemples_d_entraînement};
 
 #[test]
 fn la_cible_est_l_entrée_décalée_d_un_caractère_et_les_fenêtres_ne_se_recouvrent_pas() {
     let texte_encodé = [10, 11, 12, 13, 14, 15, 16];
+    let taille_de_fenêtre = NonZeroUsize::new(3).unwrap();
 
-    let exemples = exemples_d_entraînement(&texte_encodé, 3).unwrap();
+    let exemples = exemples_d_entraînement(&texte_encodé, taille_de_fenêtre);
 
     assert_eq!(
         exemples,
@@ -22,28 +25,21 @@ fn la_cible_est_l_entrée_décalée_d_un_caractère_et_les_fenêtres_ne_se_recou
 }
 
 #[test]
-fn une_taille_de_fenêtre_nulle_ne_donne_aucun_exemple() {
-    let texte_encodé = [10, 11, 12];
-
-    let exemples = exemples_d_entraînement(&texte_encodé, 0);
-
-    assert_eq!(exemples, None);
-}
-
-#[test]
 fn un_texte_plus_court_que_la_fenêtre_ne_donne_aucun_exemple() {
     let texte_encodé = [10, 11];
+    let taille_de_fenêtre = NonZeroUsize::new(3).unwrap();
 
-    let exemples = exemples_d_entraînement(&texte_encodé, 3);
+    let exemples = exemples_d_entraînement(&texte_encodé, taille_de_fenêtre);
 
-    assert_eq!(exemples, Some(vec![]));
+    assert_eq!(exemples, vec![]);
 }
 
 #[test]
 fn un_texte_vide_ne_donne_aucun_exemple() {
     let texte_encodé = [];
+    let taille_de_fenêtre = NonZeroUsize::new(3).unwrap();
 
-    let exemples = exemples_d_entraînement(&texte_encodé, 3);
+    let exemples = exemples_d_entraînement(&texte_encodé, taille_de_fenêtre);
 
-    assert_eq!(exemples, Some(vec![]));
+    assert_eq!(exemples, vec![]);
 }
