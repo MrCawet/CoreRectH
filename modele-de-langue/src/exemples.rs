@@ -5,6 +5,8 @@ pub struct ExempleDEntraînement {
     pub cible: Vec<usize>,
 }
 
+/// `None` si la taille de fenêtre est nulle.
+///
 /** # Apprendre
    Le modèle apprend à deviner le caractère suivant. Un exemple d'entraînement lui
    donne une entrée et sa cible, de même taille : la cible est l'entrée décalée d'un
@@ -23,6 +25,10 @@ pub fn exemples_d_entraînement(
     texte_encodé: &[usize],
     taille_de_fenêtre: usize,
 ) -> Option<Vec<ExempleDEntraînement>> {
+    if taille_de_fenêtre == 0 {
+        return None;
+    }
+
     /* # Apprendre
        La cible dépasse l'entrée d'un caractère : une fenêtre ne commence que s'il
        reste au moins un caractère après elle. Les caractères de la fin du texte qui
