@@ -70,7 +70,7 @@ Avant d'écrire un nom, vérifier chaque point. Les exemples viennent de correct
 3. **Ce que la chose exprime, pas comment elle est stockée.** Une variable qui porte la logique se nomme en français d'après son rôle, même si elle contient une `HashMap` (`caractères_distincts_triés`, et non `distinct_characters`). Un attribut qui ne sert qu'à des méthodes qui portent la logique est un détail technique, nommé d'après sa forme (`as_vector`, `as_hash_map`).
 4. **Une méthode porte le nom de ce qu'elle renvoie.** Pas de `get_` (`numéro_de(caractère)`, et non `get_numéro`). Pas de verbe qui suggère une action qui n'a pas lieu (`numéroter` pour une simple lecture).
 5. **Pas de noms qui se ressemblent** (règle de lisibilité 2), y compris les mêmes mots dans l'ordre inverse (`caractère_par_numéro` et `numéro_par_caractère`) et le singulier à côté du pluriel (`numéro` et `numéros`).
-6. **Les constructeurs suivent la convention Rust.** Le préfixe (`new`, `from_…`) est un détail technique, en anglais ; ce qui suit est le terme du métier, en français (`JeuDeCaractères::from_texte`).
+6. **Les préfixes Rust restent en anglais.** Les préfixes de construction et de conversion (`new`, `from_…`, `into_…`, `as_…`) sont des détails techniques ; ce qui suit est le terme du métier, en français (`JeuDeCaractères::from_texte`, `Historique::into_contenu`). Un constructeur qui exprime une action du métier garde son verbe français (`Saisie::commencer`).
 7. **Pas de variable intermédiaire seulement pour la renommer** : construire directement sous le nom final (`as_vector`, puis `JeuDeCaractères { as_vector, … }`).
 
 ## Stratégie de test : TDD, école de Détroit
