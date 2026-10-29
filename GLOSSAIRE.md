@@ -33,3 +33,8 @@ Les termes du métier, tels qu'ils s'écrivent dans le code. Un même mot désig
 | jeu de caractères | Les caractères que le modèle sait lire, chacun associé à un numéro. Le livre de Raschka dit « vocabulaire ». | `JeuDeCaractères` |
 | numéro | L'identifiant d'un caractère dans le jeu de caractères. Ce n'est pas une quantité : on ne dit pas « nombre ». | `usize` |
 | encoder, décoder | Passer d'un texte à ses numéros, et inversement. | `encoder`, `décoder` |
+| exemple d'entraînement | Une entrée et sa cible, tirées d'un texte encodé. | `ExempleDEntraînement`, `exemples_d_entraînement` |
+| fenêtre | Une suite de caractères consécutifs du texte, de la taille de fenêtre. Seule la dernière du texte peut être plus courte. Le livre de Raschka dit « contexte » ; ici, « contexte » désigne déjà le texte autour d'une saisie. | |
+| entrée | La fenêtre que lit le modèle. | `ExempleDEntraînement::entrée` |
+| cible | La même fenêtre décalée d'un caractère, qui donne à chaque position le caractère suivant. Le livre de Raschka dit *target*. | `ExempleDEntraînement::cible` |
+| taille de fenêtre | Le nombre maximal de caractères d'une fenêtre. Le livre de Raschka dit `context_size` ou `max_length`. | `taille_de_fenêtre` |

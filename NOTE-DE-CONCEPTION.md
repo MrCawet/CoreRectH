@@ -38,6 +38,11 @@ Le modèle est le nôtre :
 - entraîné en Rust avec la bibliothèque Burn, sur la carte graphique de l'opérateur (NVIDIA RTX 3500 Ada, 12 Go) ;
 - utilisé par le cœur, donc le même sur Android et sous Linux.
 
+Le modèle reste un modèle de langue, et non un ensemble de classifieurs. Il apprend en deux temps :
+
+1. le pré-entraînement, sur du texte propre ;
+2. l'ajustement (*fine-tuning*, chapitres 6 et 7 de Raschka), sur les fautes de l'opérateur, tirées du corpus du clavier, et sur ses refus des corrections du modèle.
+
 Ressource pour apprendre : le livre *Build a Large Language Model (From Scratch)* de Sebastian Raschka, et sa traduction en Rust avec Candle, [llms-from-scratch-rs](https://github.com/nerdai/llms-from-scratch-rs), à traduire vers Burn.
 
 ### Pistes écartées
