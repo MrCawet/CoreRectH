@@ -29,3 +29,12 @@ fn une_taille_de_fenêtre_nulle_ne_donne_aucun_exemple() {
 
     assert_eq!(exemples, None);
 }
+
+#[test]
+fn un_texte_plus_court_que_la_fenêtre_ne_donne_aucun_exemple() {
+    let texte_encodé = [10, 11];
+
+    let exemples = exemples_d_entraînement(&texte_encodé, 3);
+
+    assert_eq!(exemples, Some(vec![]));
+}
