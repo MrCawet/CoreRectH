@@ -53,18 +53,18 @@ impl JeuDeCaractères {
 
     /// `None` si un caractère du texte n'est pas dans le jeu de caractères.
     pub fn encoder(&self, texte: &str) -> Option<Vec<usize>> {
-        let mut numéros_du_texte = Vec::new();
+        let mut texte_encodé = Vec::new();
         for caractère in texte.chars() {
             let numéro = self.numéro_de(caractère)?;
-            numéros_du_texte.push(numéro);
+            texte_encodé.push(numéro);
         }
-        Some(numéros_du_texte)
+        Some(texte_encodé)
     }
 
     /// `None` si un numéro ne correspond à aucun caractère du jeu de caractères.
-    pub fn décoder(&self, numéros_du_texte: &[usize]) -> Option<String> {
+    pub fn décoder(&self, texte_encodé: &[usize]) -> Option<String> {
         let mut texte = String::new();
-        for numéro in numéros_du_texte {
+        for numéro in texte_encodé {
             let caractère = self.caractère_de(*numéro)?;
             texte.push(caractère);
         }
