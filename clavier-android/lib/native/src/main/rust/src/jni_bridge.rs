@@ -8,7 +8,7 @@ use std::path::PathBuf;
 use jni::objects::{JClass, JString};
 use jni::sys::jlong;
 use jni::JNIEnv;
-use moteur::saisie::{Contexte, Saisie};
+use moteur::saisie::Saisie;
 
 use crate::json_lines_corpus::JsonLinesCorpus;
 use crate::system_clock::SystemClock;
@@ -26,12 +26,7 @@ pub extern "system" fn Java_org_corerecth_Moteur_commencer(
         return NO_SAISIE;
     };
     let valeur_du_champ: String = valeur_du_champ.into();
-    // Un clavier Android ne voit que le champ, rien de ce qui l'entoure.
-    let contexte = Contexte {
-        avant: None,
-        après: None,
-    };
-    let saisie = Saisie::commencer(contexte, &valeur_du_champ, Box::new(SystemClock));
+    let saisie = Saisie::commencer(&valeur_du_champ, Box::new(SystemClock));
     let boxed_saisie = Box::new(saisie);
     Box::into_raw(boxed_saisie) as jlong
 }
