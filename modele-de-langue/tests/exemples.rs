@@ -38,3 +38,12 @@ fn un_texte_plus_court_que_la_fenêtre_ne_donne_aucun_exemple() {
 
     assert_eq!(exemples, Some(vec![]));
 }
+
+#[test]
+fn un_texte_vide_ne_donne_aucun_exemple() {
+    let texte_encodé = [];
+
+    let exemples = exemples_d_entraînement(&texte_encodé, 3);
+
+    assert_eq!(exemples, Some(vec![]));
+}
