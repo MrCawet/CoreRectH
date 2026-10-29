@@ -12,7 +12,7 @@ pub struct Historique {
     contenu: Vec<ÉtatDuTexte>,
 }
 
-/// Enregistrer les états du texte, puis les lire.
+/// Commencer un historique vide, y enregistrer les états du texte, puis les lire.
 impl Historique {
     pub fn new(horloge: Box<dyn Horloge>) -> Self {
         Historique {
