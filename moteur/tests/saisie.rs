@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 
 use moteur::corpus::Corpus;
 use moteur::horloge::Horloge;
-use moteur::saisie::{Contexte, Historique, Saisie, SaisieTerminée, ÉtatDuTexte};
+use moteur::saisie::{Historique, Saisie, SaisieTerminée, ÉtatDuTexte};
 
 /// Doublure de l'horloge système : donne, dans l'ordre, les lectures qu'on lui a confiées.
 struct HorlogeProgrammée {
@@ -83,18 +83,11 @@ fn chaque_état_du_texte_saisi_est_enregistré_dans_l_ordre_avec_l_heure_de_sa_f
     );
 }
 
-fn contexte_d_un_courrier() -> Contexte {
-    Contexte {
-        avant: Some("Cher Paul,\n".to_string()),
-        après: None,
-    }
-}
-
 #[test]
-fn une_saisie_terminée_est_ajoutée_au_corpus_avec_son_contexte_et_son_historique() {
+fn une_saisie_terminée_est_ajoutée_au_corpus_avec_son_historique() {
     let horloge = HorlogeProgrammée::qui_donnera(vec![1_000, 1_120]);
     let champ_vide = "";
-    let mut saisie = Saisie::commencer(contexte_d_un_courrier(), champ_vide, Box::new(horloge));
+    let mut saisie = Saisie::commencer(champ_vide, Box::new(horloge));
     let mut corpus = CorpusEnMémoire { saisies: vec![] };
 
     saisie.enregistrer("B");
@@ -104,7 +97,6 @@ fn une_saisie_terminée_est_ajoutée_au_corpus_avec_son_contexte_et_son_historiq
     assert_eq!(
         corpus.saisies,
         [SaisieTerminée {
-            contexte: contexte_d_un_courrier(),
             historique: vec![état(1_000, "B"), état(1_120, "Bo")],
         }]
     );
@@ -113,7 +105,7 @@ fn une_saisie_terminée_est_ajoutée_au_corpus_avec_son_contexte_et_son_historiq
 #[test]
 fn la_valeur_déjà_présente_dans_le_champ_est_la_première_frappe() {
     let horloge = HorlogeProgrammée::qui_donnera(vec![1_000, 1_120]);
-    let mut saisie = Saisie::commencer(contexte_d_un_courrier(), "Bonjour", Box::new(horloge));
+    let mut saisie = Saisie::commencer("Bonjour", Box::new(horloge));
     let mut corpus = CorpusEnMémoire { saisies: vec![] };
 
     saisie.enregistrer("Bonjour P");
@@ -122,7 +114,6 @@ fn la_valeur_déjà_présente_dans_le_champ_est_la_première_frappe() {
     assert_eq!(
         corpus.saisies,
         [SaisieTerminée {
-            contexte: contexte_d_un_courrier(),
             historique: vec![état(1_000, "Bonjour"), état(1_120, "Bonjour P")],
         }]
     );
