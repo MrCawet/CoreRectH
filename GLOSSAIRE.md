@@ -33,3 +33,15 @@ Les termes du métier, tels qu'ils s'écrivent dans le code. Un même mot désig
 | jeu de caractères | Les caractères que le modèle sait lire, chacun associé à un numéro. Le livre de Raschka dit « vocabulaire ». | `JeuDeCaractères` |
 | numéro | L'identifiant d'un caractère dans le jeu de caractères. Ce n'est pas une quantité : on ne dit pas « nombre ». | `usize` |
 | encoder, décoder | Passer d'un texte à ses numéros, et inversement. | `encoder`, `décoder` |
+
+## Calcul des gradients
+
+Un petit moteur écrit pour apprendre comment un modèle s'entraîne. Burn fera ce travail pour le vrai modèle.
+
+| Terme | Sens | Dans le code |
+|---|---|---|
+| graphe de calcul | Les opérations enregistrées une à une, de la variable jusqu'au résultat, pour pouvoir calculer les gradients. | `GrapheDeCalcul` |
+| nœud | Une valeur du graphe de calcul : une variable, ou le résultat d'une opération. | `Nœud` |
+| variable | Une valeur donnée au départ. Pour le modèle, ce seront ses paramètres. | `GrapheDeCalcul::ajouter_une_variable` |
+| gradient | De combien le résultat change quand un nœud augmente d'un tout petit peu. | `Gradients` |
+| rétropropagation | Calculer les gradients en remontant le graphe, du résultat vers les variables. | `GrapheDeCalcul::gradients_de` |
