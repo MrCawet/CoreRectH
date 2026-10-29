@@ -1,9 +1,12 @@
-use std::collections::{BTreeSet, HashMap};
+/*! # Apprendre
+   Un modèle ne lit que des nombres. Le découpage transforme le texte en une suite
+   de nombres, et inversement. Ici, l'unité est la lettre : chaque caractère
+   distinct reçoit un numéro. GPT-2 découpe plutôt en morceaux de mots (BPE).
+   Raschka, chapitre 2, sections 2.2 à 2.4 (découper le texte, puis numéroter les morceaux) :
+   <https://github.com/rasbt/LLMs-from-scratch/blob/main/ch02/01_main-chapter-code/ch02.ipynb>
+*/
 
-// [apprendre] Un modèle ne lit que des nombres. Le découpage transforme le texte en une suite
-// [apprendre] de nombres, et inversement. Ici, l'unité est la lettre : chaque caractère
-// [apprendre] distinct reçoit un numéro. GPT-2 découpe plutôt en morceaux de mots (BPE).
-// [apprendre] Raschka, chapitre 2, sections 2.2 à 2.4 (découper le texte, puis numéroter les morceaux).
+use std::collections::{BTreeSet, HashMap};
 
 /// Les lettres que le modèle sait lire, chacune associée à un nombre.
 pub struct Vocabulaire {
@@ -13,8 +16,10 @@ pub struct Vocabulaire {
 
 impl Vocabulaire {
     pub fn depuis_le_texte(texte: &str) -> Self {
-        // [apprendre] Les lettres sont triées pour que le même texte donne toujours les mêmes
-        // [apprendre] numéros : un modèle entraîné n'est valable qu'avec son vocabulaire.
+        /* # Apprendre
+           Les lettres sont triées pour que le même texte donne toujours les mêmes
+           numéros : un modèle entraîné n'est valable qu'avec son vocabulaire.
+        */
         let distinct_letters: BTreeSet<char> = texte.chars().collect();
         let letter_by_number: Vec<char> = distinct_letters.into_iter().collect();
 
