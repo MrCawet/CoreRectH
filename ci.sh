@@ -11,5 +11,6 @@ for crate in moteur analyse modele-de-langue clavier-android/lib/native/src/main
         cargo fmt --check
         cargo clippy --locked --all-targets -- -D warnings
         cargo test --locked
+        RUSTDOCFLAGS="-D warnings" cargo doc --locked --no-deps --document-private-items
     )
 done

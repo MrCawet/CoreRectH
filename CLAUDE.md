@@ -13,7 +13,7 @@
   - Le branchement au moteur : `app/src/main/kotlin/org/corerecth/` (Kotlin) et `lib/native/src/main/rust/` (crate Rust de FlorisBoard, JNI et adaptateurs, testée par `./ci.sh`).
 - Publier le clavier Android : action GitHub **Publier**, lancée à la main (voir [QUALITY-GATES.md](QUALITY-GATES.md)).
 - `rust-toolchain.toml` : la version de Rust, la même en local et en CI.
-- `./ci.sh` : toutes les vérifications (fmt, clippy, tests), à lancer avant de livrer. Un hook Claude Code le lance avant chaque `git push` et bloque le push s'il échoue. Il examine la commande entière avant de l'exécuter : pousser dans une commande à part, sinon un test rouge commité juste avant bloque tout.
+- `./ci.sh` : toutes les vérifications (fmt, clippy, tests, documentation), à lancer avant de livrer. Un hook Claude Code le lance avant chaque `git push` et bloque le push s'il échoue. Il examine la commande entière avant de l'exécuter : pousser dans une commande à part, sinon un test rouge commité juste avant bloque tout.
 
 Mettre à jour cette section à chaque changement qu'une nouvelle session perdrait du temps à retrouver : commandes fréquentes, particularités du projet, etc.
 

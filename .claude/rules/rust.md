@@ -46,6 +46,6 @@ Les identifiants du métier gardent leurs accents (types, fonctions, variables).
 ./ci.sh
 ```
 
-Il lance `cargo fmt --check`, `cargo clippy --locked --all-targets -- -D warnings` puis `cargo test --locked`.
+Il lance `cargo fmt --check`, `cargo clippy --locked --all-targets -- -D warnings`, `cargo test --locked` puis `cargo doc --locked --no-deps --document-private-items` (avertissements bloquants).
 
 Dire explicitement ce qui n'a pas pu être vérifié (cible Android, IBus…).
