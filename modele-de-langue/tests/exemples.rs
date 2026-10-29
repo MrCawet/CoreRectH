@@ -4,7 +4,7 @@ use modele_de_langue::exemples::{ExempleDEntraînement, exemples_d_entraînement
 fn la_cible_est_l_entrée_décalée_d_un_caractère_et_les_fenêtres_ne_se_recouvrent_pas() {
     let texte_encodé = [10, 11, 12, 13, 14, 15, 16];
 
-    let exemples = exemples_d_entraînement(&texte_encodé, 3);
+    let exemples = exemples_d_entraînement(&texte_encodé, 3).unwrap();
 
     assert_eq!(
         exemples,
@@ -19,4 +19,13 @@ fn la_cible_est_l_entrée_décalée_d_un_caractère_et_les_fenêtres_ne_se_recou
             },
         ]
     );
+}
+
+#[test]
+fn une_taille_de_fenêtre_nulle_ne_donne_aucun_exemple() {
+    let texte_encodé = [10, 11, 12];
+
+    let exemples = exemples_d_entraînement(&texte_encodé, 0);
+
+    assert_eq!(exemples, None);
 }

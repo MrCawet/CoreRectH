@@ -22,7 +22,7 @@ pub struct ExempleDEntraînement {
 pub fn exemples_d_entraînement(
     texte_encodé: &[usize],
     taille_de_fenêtre: usize,
-) -> Vec<ExempleDEntraînement> {
+) -> Option<Vec<ExempleDEntraînement>> {
     /* # Apprendre
        La cible dépasse l'entrée d'un caractère : une fenêtre ne commence que s'il
        reste au moins un caractère après elle. Les caractères de la fin du texte qui
@@ -37,5 +37,5 @@ pub fn exemples_d_entraînement(
         let cible = texte_encodé[début + 1..fin + 1].to_vec();
         exemples.push(ExempleDEntraînement { entrée, cible });
     }
-    exemples
+    Some(exemples)
 }
