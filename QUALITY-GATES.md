@@ -16,6 +16,7 @@ Ce qui peut être automatisé.
 - `cargo fmt --check` : le code est formaté.
 - `cargo clippy --locked --all-targets -- -D warnings` : aucun avertissement.
 - `cargo test --locked` : les tests passent.
+- `cargo doc --locked --no-deps --document-private-items`, avec `-D warnings` : la documentation se génère sans avertissement (liens et sections `# Apprendre` compris).
 
 `--locked` fait échouer la vérification si `Cargo.lock` ne correspond plus à `Cargo.toml`, au lieu de le mettre à jour en silence.
 

@@ -4,12 +4,13 @@ set -euo pipefail
 
 racine="$(dirname "$0")"
 
-# Le moteur, puis la crate Rust du clavier Android qui l'appelle par JNI.
-for crate in moteur clavier-android/lib/native/src/main/rust; do
+# Le moteur, l'analyse du corpus, le modèle de langue, puis la crate Rust du clavier Android qui appelle le moteur par JNI.
+for crate in moteur analyse modele-de-langue clavier-android/lib/native/src/main/rust; do
     (
         cd "$racine/$crate"
         cargo fmt --check
         cargo clippy --locked --all-targets -- -D warnings
         cargo test --locked
+        RUSTDOCFLAGS="-D warnings" cargo doc --locked --no-deps --document-private-items
     )
 done

@@ -21,6 +21,12 @@ Complètent [CLAUDE.md](../../CLAUDE.md). Chacune répond à une dérive connue 
 - Une frontière est un trait, utilisé par défaut en `Box<dyn Trait>`.
 - Le cœur est synchrone : pas d'`async` ni de `tokio`.
 
+## Ranger le code
+
+- Dans un type, les méthodes privées d'abord, puis les publiques.
+- Un bloc `impl` par groupe de méthodes, chacun avec une ligne de documentation qui dit ce que le groupe fait. Pas de bandeau en commentaire (`// ----- Privé -----`).
+- Les commentaires d'apprentissage suivent la notation de [CLAUDE.md](../../CLAUDE.md) (`# Apprendre`).
+
 ## Tests
 
 - Les tests sont dans `tests/` et n'utilisent que l'API publique de la crate : pas de `#[cfg(test)] mod tests` qui accède à l'interne.
@@ -46,6 +52,6 @@ Les identifiants du métier gardent leurs accents (types, fonctions, variables).
 ./ci.sh
 ```
 
-Il lance `cargo fmt --check`, `cargo clippy --locked --all-targets -- -D warnings` puis `cargo test --locked`.
+Il lance `cargo fmt --check`, `cargo clippy --locked --all-targets -- -D warnings`, `cargo test --locked` puis `cargo doc --locked --no-deps --document-private-items` (avertissements bloquants).
 
 Dire explicitement ce qui n'a pas pu être vérifié (cible Android, IBus…).
