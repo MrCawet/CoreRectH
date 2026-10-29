@@ -34,6 +34,8 @@ pub fn exemples_d_entraînement(
        reste au moins un caractère après elle. Les caractères de la fin du texte qui
        ne remplissent pas une fenêtre entière sont laissés de côté.
     */
+    // saturating_sub donne 0 plutôt qu'un débordement quand le texte est plus court
+    // que la fenêtre : aucune fenêtre ne commence alors.
     let limite_des_débuts = texte_encodé.len().saturating_sub(taille_de_fenêtre);
 
     let mut exemples = Vec::new();
