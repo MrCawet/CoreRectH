@@ -25,7 +25,16 @@ Complètent [CLAUDE.md](../../CLAUDE.md). Chacune répond à une dérive connue 
 
 - Dans un type, les méthodes privées d'abord, puis les publiques.
 - Un bloc `impl` par groupe de méthodes, chacun avec une ligne de documentation qui dit ce que le groupe fait. Pas de bandeau en commentaire (`// ----- Privé -----`).
-- Les commentaires d'apprentissage suivent la notation de [CLAUDE.md](../../CLAUDE.md) (`# Apprendre`).
+
+## Commentaires d'apprentissage
+
+Les commentaires d'apprentissage de [CLAUDE.md](../../CLAUDE.md#réponses-à-lopérateur) sont des blocs qui s'ouvrent sur une section de documentation `# Apprendre` (comme `# Examples` ou `# Errors`), avec `*/` seul sur la dernière ligne. La documentation Rust rend leurs liens entre chevrons cliquables. Un commentaire qui décrit un élément prend la notation de documentation (`/*!`, `/**`) ; sinon, `/*`.
+
+- `/*! # Apprendre … */` en tête de fichier, pour un module ;
+- `/** # Apprendre … */` juste avant une structure, une méthode ou une fonction ;
+- `/* # Apprendre … */` dans le corps d'une fonction.
+
+Une commande les retire tous : `find . -name '*.rs' -exec sed -i '/^[[:space:]]*\/\*[*!]\? # Apprendre/,/\*\//d' {} +`.
 
 ## Tests
 
