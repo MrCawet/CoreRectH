@@ -1,16 +1,6 @@
 use std::num::NonZeroUsize;
 
 /// Une entrée et sa cible, tirées d'un texte encodé.
-/** # Apprendre
-   Le modèle ne reçoit pas les exemples d'entraînement un par un : ils sont regroupés
-   en lots, quelques exemples traités d'un coup (voir [`crate::lots`]).
-   Pourquoi : la carte graphique sait faire le même calcul sur beaucoup de nombres à la
-   fois. Traiter 8 exemples ensemble prend à peu près le temps d'en traiter un seul.
-   Et le modèle se corrige d'après l'erreur moyenne sur tout le lot, plus stable que
-   l'erreur d'un seul exemple : un exemple inhabituel le fait moins dévier.
-   Raschka, chapitre 2, fin de la section 2.6 (`batch_size`) :
-   <https://github.com/rasbt/LLMs-from-scratch/blob/main/ch02/01_main-chapter-code/ch02.ipynb>
-*/
 #[derive(Clone, Debug, PartialEq)]
 pub struct ExempleDEntraînement {
     pub entrée: Vec<usize>,

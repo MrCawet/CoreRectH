@@ -23,18 +23,6 @@ use crate::exemples::ExempleDEntraînement;
 
 /// Des exemples d'entraînement rangés en tableau : la ligne n de `cibles` est la cible
 /// de la ligne n d'`entrées`.
-/** # Apprendre
-   Un tenseur est un tableau de nombres, à une ou plusieurs dimensions : une liste
-   (1 dimension), un tableau à lignes et colonnes (2 dimensions), une pile de tableaux
-   (3 dimensions), etc. C'est la forme sous laquelle Burn, comme PyTorch, donne les
-   nombres à la carte graphique, qui calcule sur toutes les cases à la fois.
-   `Tensor<2, Int>` se lit : un tenseur à 2 dimensions (lignes et colonnes), qui
-   contient des entiers (`Int`), ici des numéros de caractères. Il ne dit pas sa
-   taille : elle se lit à l'exécution, avec `dims()`.
-   Raschka, annexe A, section A.2 (les tenseurs de PyTorch) :
-   <https://github.com/rasbt/LLMs-from-scratch/blob/main/appendix-A/01_main-chapter-code/code-part1.ipynb>
-   <https://burn.dev/books/burn/building-blocks/tensor.html>
-*/
 #[derive(Clone, Debug)]
 pub struct Lot {
     pub entrées: Tensor<2, Int>,
