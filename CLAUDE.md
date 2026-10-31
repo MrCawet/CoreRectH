@@ -12,6 +12,7 @@
 - `modele-de-langue/` : le petit modèle de langue qui servira à corriger (voir [NOTE-DE-CONCEPTION.md](NOTE-DE-CONCEPTION.md)), qui sera entraîné avec Burn. Pour l'instant, le découpage du texte en caractères.
 - `clavier-android/` : copie de FlorisBoard (commit `fe1241f`, sans son historique), expérimentale. Pas de SDK Android dans les sessions cloud : la compilation se vérifie en local.
   - Le branchement au moteur : `app/src/main/kotlin/org/corerecth/` (Kotlin) et `lib/native/src/main/rust/` (crate Rust de FlorisBoard, JNI et adaptateurs, testée par `./ci.sh`).
+  - [clavier-android/CORRECTIFS-POUR-FLORISBOARD.md](clavier-android/CORRECTIFS-POUR-FLORISBOARD.md) : les bugs de FlorisBoard corrigés ici, à proposer au dépôt officiel. Le journal de débogage du clavier (Autre → Outils de développement → Debug log) montre ses traces sans ordinateur.
 - Publier le clavier Android : action GitHub **Publier**, lancée à la main (voir [QUALITY-GATES.md](QUALITY-GATES.md)).
 - `rust-toolchain.toml` : la version de Rust, la même en local et en CI.
 - `./ci.sh` : toutes les vérifications (fmt, clippy, tests, documentation), à lancer avant de livrer. Un hook Claude Code le lance avant chaque `git push` et bloque le push s'il échoue. Il examine la commande entière avant de l'exécuter : pousser dans une commande à part, sinon un test rouge commité juste avant bloque tout.

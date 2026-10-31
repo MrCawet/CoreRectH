@@ -405,6 +405,15 @@ class FlorisImeService : LifecycleInputMethodService() {
         candidatesEnd: Int,
     ) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
+        // Some editors (e.g. Firefox) never send CursorAnchorInfo, but every editor reports selection updates here.
+        val newSelection = K3TextRange(
+            start = newSelStart,
+            end = newSelEnd,
+        )
+        flogInfo { "new=$newSelection" }
+        imeController.updateStateBlocking {
+            handleUpdateSelection(newSelection)
+        }
         enregistreurDeSaisie.surChangementDuChamp(currentInputConnection)
     }
 
