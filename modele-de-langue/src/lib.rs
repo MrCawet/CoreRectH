@@ -2,5 +2,3 @@
 #![forbid(clippy::unwrap_used, clippy::expect_used)]
 
 pub mod decoupage;
-pub mod exemples;
-pub mod lots;

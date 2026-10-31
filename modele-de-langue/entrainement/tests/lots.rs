@@ -12,8 +12,8 @@
 use std::num::NonZeroUsize;
 
 use burn::tensor::{Int, Tensor};
-use modele_de_langue::exemples::exemples_d_entraînement;
-use modele_de_langue::lots::{Lot, lots};
+use entrainement::exemples::exemples_d_entraînement;
+use entrainement::lots::{Lot, lots};
 
 const NUMÉRO_DE_REMPLISSAGE: usize = 99;
 

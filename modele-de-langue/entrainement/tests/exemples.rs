@@ -1,6 +1,6 @@
 use std::num::NonZeroUsize;
 
-use modele_de_langue::exemples::{ExempleDEntraînement, exemples_d_entraînement};
+use entrainement::exemples::{ExempleDEntraînement, exemples_d_entraînement};
 
 #[test]
 fn la_cible_est_l_entrée_décalée_d_un_caractère_et_les_fenêtres_ne_se_recouvrent_pas() {

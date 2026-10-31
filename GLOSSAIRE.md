@@ -28,6 +28,7 @@ Les termes du métier, tels qu'ils s'écrivent dans le code. Un même mot désig
 | Terme | Sens | Dans le code |
 |---|---|---|
 | modèle de langue | Le modèle qui devine la suite d'un texte. | crate `modele-de-langue` |
+| entraînement | Apprendre au modèle de langue à deviner la suite d'un texte, à partir d'exemples d'entraînement. Il se fait sur le PC, pas sur le téléphone. | crate `entrainement` |
 | découpage | Transformer un texte en suite de numéros, et inversement. | module `decoupage` |
 | caractère | Toute unité du texte : lettre, chiffre, espace, ponctuation. On ne dit « lettre » que pour une lettre. | `char` |
 | jeu de caractères | Les caractères que le modèle sait lire, chacun associé à un numéro. Le livre de Raschka dit « vocabulaire ». | `JeuDeCaractères` |
